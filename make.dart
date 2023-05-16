@@ -4,7 +4,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-const appName = 'ServerBox';
+const appName = 'TestBox';
 
 const buildDataFilePath = 'lib/data/res/build_data.dart';
 const apkPath = 'build/app/outputs/flutter-apk/app-release.apk';
@@ -28,11 +28,12 @@ Future<ProcessResult> fvmRun(List<String> args) async {
 }
 
 Future<void> getGitCommitCount() async {
-  final result = await Process.run('git', ['log', '--oneline']);
+  /*final result = await Process.run('git', ['log', '--oneline']);
   build = (result.stdout as String)
       .split('\n')
       .where((line) => line.isNotEmpty)
-      .length;
+      .length;*/
+  build = 100;
 }
 
 Future<void> writeStaicConfigFile(
@@ -65,12 +66,17 @@ Future<String> getFlutterVersion() async {
   return stdout.split('\n')[0].split('•')[0].split(' ')[1].trim();
 }
 
+String getiOSAppId() {
+  return "1586449703";
+}
+
 Future<Map<String, dynamic>> getBuildData() async {
   final data = {
     'name': appName,
     'build': build,
     'engine': await getFlutterVersion(),
     'buildAt': DateTime.now().toString(),
+    'IOS_APP_ID': getiOSAppId(),
     'modifications': await getGitModificationCount(),
   };
   return data;

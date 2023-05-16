@@ -28,6 +28,18 @@ class NetSpeed {
 
   BigInt get timeDiff => _now[0].time - _old[0].time;
 
+  double getSpeedIn({String? device}){
+    if (_old[0].device == '' || _now[0].device == '') return 0;
+    final idx = deviceIdx(device);
+    return (_now[idx].bytesIn - _old[idx].bytesIn) / timeDiff;
+  }
+
+  double getSpeedOut({String? device}){
+    if (_old[0].device == '' || _now[0].device == '') return 0;
+    final idx = deviceIdx(device);
+    return (_now[idx].bytesOut - _old[idx].bytesOut) / timeDiff;
+  }
+
   String speedIn({String? device}) {
     if (_old[0].device == '' || _now[0].device == '') return '0kb/s';
     final idx = deviceIdx(device);

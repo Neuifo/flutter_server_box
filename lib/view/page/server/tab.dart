@@ -6,6 +6,8 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:toolbox/core/extension/navigator.dart';
 import 'package:toolbox/core/utils/misc.dart';
+import 'package:toolbox/data/model/server/net_speed.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 import '../../../core/route.dart';
 import '../../../core/utils/ui.dart';
@@ -114,7 +116,7 @@ class _ServerPageState extends State<ServerPage>
     return RoundRectCard(
       GestureDetector(
         child: Padding(
-          padding: const EdgeInsets.all(13),
+          padding: const EdgeInsets.all(10),
           child: _buildRealServerCard(si.status, si.state, si.spi),
         ),
         onTap: () => AppRoute(
@@ -127,25 +129,27 @@ class _ServerPageState extends State<ServerPage>
   }
 
   Widget _buildRealServerCard(
-    ServerStatus ss,
-    ServerState cs,
-    ServerPrivateInfo spi,
+    ServerStatus serverStatus,
+    ServerState serverState,
+    ServerPrivateInfo serverPri,
   ) {
-    final rootDisk = ss.disk.firstWhere((element) => element.loc == '/');
+    final rootDisk =
+        serverStatus.disk.firstWhere((element) => element.loc == '/');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildServerCardTitle(ss, cs, spi),
+        _buildServerCardTitle(serverStatus, serverState, serverPri),
         const SizedBox(
           height: 17,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildPercentCircle(ss.cpu.usedPercent()),
-            _buildPercentCircle(ss.mem.usedPercent * 100),
-            _buildIOData('Conn:\n${ss.tcp.maxConn}', 'Fail:\n${ss.tcp.fail}'),
+            _buildPercentCircle(serverStatus.cpu.usedPercent()),
+            _buildPercentCircle(serverStatus.mem.usedPercent * 100),
+            _buildSpeedData(serverStatus.netSpeed),
+            //_buildIOData('Conn:\n${ss.tcp.maxConn}', 'Fail:\n${ss.tcp.fail}'),
             _buildIOData(
                 'Total:\n${rootDisk.size}', 'Used:\n${rootDisk.usedPercent}%')
           ],
@@ -359,6 +363,38 @@ class _ServerPageState extends State<ServerPage>
     }
   }
 
+  Widget _buildSpeedData(NetSpeed netSpeed) {
+    final statusTextStyle = TextStyle(
+        fontSize: 9, color: _theme.textTheme.bodyLarge!.color!.withAlpha(177));
+    double inSpeed = 0;
+    double outSpeed = 0;
+    for (var e in netSpeed.devices) {
+      inSpeed += netSpeed.getSpeedIn(device: e);
+      outSpeed += netSpeed.getSpeedOut(device: e);
+    }
+    return SizedBox(
+      width: _media.size.width * 0.2,
+      child: Column(
+        children: [
+          const SizedBox(height: 5),
+          Text(
+            "In:${inSpeed / 1024 ~/ 1024}Mb/s",
+            style: statusTextStyle,
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.0,
+          ),
+          const SizedBox(height: 3),
+          Text(
+            "Out:${outSpeed / 1024 ~/ 1024}Mb/s",
+            style: statusTextStyle,
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.0,
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _buildIOData(String up, String down) {
     final statusTextStyle = TextStyle(
         fontSize: 9, color: _theme.textTheme.bodyLarge!.color!.withAlpha(177));
@@ -385,6 +421,41 @@ class _ServerPageState extends State<ServerPage>
     );
   }
 
+  PieChart getChart(double first) {
+    return PieChart(
+      dataMap: {"1": first, "2": 100 - first},
+      animationDuration: Duration(milliseconds: 800),
+      chartLegendSpacing: 32,
+      chartRadius: MediaQuery.of(context).size.width / 3.2,
+      colorList: const [
+        Colors.red,
+        Color.fromRGBO(129, 250, 112, 1),
+      ],
+      initialAngleInDegree: 0,
+      chartType: ChartType.ring,
+      ringStrokeWidth: 5,
+      centerText: "",
+      legendOptions: LegendOptions(
+        showLegendsInRow: false,
+        legendPosition: LegendPosition.bottom,
+        showLegends: false,
+        legendShape: BoxShape.circle,
+        legendTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      chartValuesOptions: ChartValuesOptions(
+        showChartValueBackground: false,
+        showChartValues: false,
+        showChartValuesInPercentage: false,
+        showChartValuesOutside: false,
+        decimalPlaces: 1,
+      ),
+      // gradientList: ---To add gradient colors---
+      // emptyColorGradient: ---Empty Color gradient---
+    );
+  }
+
   Widget _buildPercentCircle(double percent) {
     if (percent <= 0) percent = 0.01;
     if (percent >= 100) percent = 99.9;
@@ -392,15 +463,15 @@ class _ServerPageState extends State<ServerPage>
       width: _media.size.width * 0.2,
       child: Stack(
         children: [
-          Center(
-            child: CircleChart(
+          Center(child: getChart(percent)
+              /*CircleChart(
               progressColor: primaryColor,
               progressNumber: percent,
               maxNumber: 100,
               width: 53,
               height: 53,
-            ),
-          ),
+            ),*/
+              ),
           Positioned.fill(
             child: Center(
               child: Text(

@@ -122,9 +122,9 @@ class _MyHomePageState extends State<MyHomePage>
             FocusScope.of(context).requestFocus(FocusNode());
           });
         },
-        children: const [ServerPage(), ConvertPage(), PingPage()],
+        children: const [ServerPage(), PingPage()],
       ),
-      bottomNavigationBar: _buildBottomBar(context),
+      //bottomNavigationBar: _buildBottomBar(context),
     );
   }
 

@@ -81,7 +81,7 @@ Future<void> _doUpdate(String url, BuildContext context, S s) async {
       isAutoRequestInstall: true,
     );
   } else if (isIOS) {
-    await RUpgrade.upgradeFromAppStore('1586449703');
+    await RUpgrade.upgradeFromAppStore(BuildData.IOS_APP_ID);
   } else {
     showRoundDialog(
       context: context,
