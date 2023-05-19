@@ -105,12 +105,12 @@ class _MyHomePageState extends State<MyHomePage>
       appBar: AppBar(
         title: const Text(BuildData.name),
         actions: [
-          IconButton(
+          /*IconButton(
             icon: const Icon(Icons.developer_mode, size: 23),
             tooltip: _s.debug,
             onPressed: () =>
                 AppRoute(const DebugPage(), 'Debug Page').go(context),
-          ),
+          ),*/
         ],
       ),
       body: PageView(
@@ -122,9 +122,9 @@ class _MyHomePageState extends State<MyHomePage>
             FocusScope.of(context).requestFocus(FocusNode());
           });
         },
-        children: const [ServerPage(), PingPage()],
+        children: const [ServerPage(),PingPage()],
       ),
-      //bottomNavigationBar: _buildBottomBar(context),
+      bottomNavigationBar: _buildBottomBar(context),
     );
   }
 
@@ -150,10 +150,10 @@ class _MyHomePageState extends State<MyHomePage>
           label: _s.server,
           selectedIcon: const Icon(Icons.cloud),
         ),
-        NavigationDestination(
+        /*NavigationDestination(
           icon: const Icon(Icons.code),
           label: _s.convert,
-        ),
+        ),*/
         const NavigationDestination(
           icon: Icon(Icons.leak_add),
           label: 'Ping',
@@ -228,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage>
                     'snippet list',
                   ).go(context),
                 ),
-                ListTile(
+                /*ListTile(
                   leading: const Icon(Icons.text_snippet),
                   title: Text('${_s.about} & ${_s.feedback}'),
                   onTap: () {
@@ -270,7 +270,7 @@ class _MyHomePageState extends State<MyHomePage>
                       ],
                     );
                   },
-                )
+                )*/
               ].map((e) => RoundRectCard(e)).toList(),
             ),
           ),
@@ -313,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage>
     await GetIt.I.allReady();
     await _serverProvider.loadLocalData();
     await _serverProvider.refreshData();
-    await doUpdate(context);
+    //await doUpdate(context);
     if (!Analysis.enabled) {
       await Analysis.init();
     }

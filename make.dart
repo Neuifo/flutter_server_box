@@ -4,7 +4,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-const appName = 'TestBox';
+const appName = 'ServerDog';
 
 const buildDataFilePath = 'lib/data/res/build_data.dart';
 const apkPath = 'build/app/outputs/flutter-apk/app-release.apk';

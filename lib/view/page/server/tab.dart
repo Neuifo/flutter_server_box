@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:toolbox/core/extension/navigator.dart';
 import 'package:toolbox/core/utils/misc.dart';
+import 'package:toolbox/data/model/server/disk_info.dart';
 import 'package:toolbox/data/model/server/net_speed.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -149,9 +150,7 @@ class _ServerPageState extends State<ServerPage>
             _buildPercentCircle(serverStatus.cpu.usedPercent()),
             _buildPercentCircle(serverStatus.mem.usedPercent * 100),
             _buildSpeedData(serverStatus.netSpeed),
-            //_buildIOData('Conn:\n${ss.tcp.maxConn}', 'Fail:\n${ss.tcp.fail}'),
-            _buildIOData(
-                'Total:\n${rootDisk.size}', 'Used:\n${rootDisk.usedPercent}%')
+            _buildDiskData(rootDisk),
           ],
         ),
         const SizedBox(height: 13),
@@ -365,7 +364,9 @@ class _ServerPageState extends State<ServerPage>
 
   Widget _buildSpeedData(NetSpeed netSpeed) {
     final statusTextStyle = TextStyle(
-        fontSize: 9, color: _theme.textTheme.bodyLarge!.color!.withAlpha(177));
+      fontSize: 8,
+      color: _theme.textTheme.bodyLarge!.color!.withAlpha(177),
+    );
     double inSpeed = 0;
     double outSpeed = 0;
     for (var e in netSpeed.devices) {
@@ -374,56 +375,108 @@ class _ServerPageState extends State<ServerPage>
     }
     return SizedBox(
       width: _media.size.width * 0.2,
-      child: Column(
+      child: Stack(
         children: [
-          const SizedBox(height: 5),
-          Text(
-            "In:${inSpeed / 1024 ~/ 1024}Mb/s",
-            style: statusTextStyle,
-            textAlign: TextAlign.center,
-            textScaleFactor: 1.0,
-          ),
-          const SizedBox(height: 3),
-          Text(
-            "Out:${outSpeed / 1024 ~/ 1024}Mb/s",
-            style: statusTextStyle,
-            textAlign: TextAlign.center,
-            textScaleFactor: 1.0,
+          Center(child: getChart(inSpeed, outSpeed)),
+          Positioned.fill(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton.icon(
+                  // <-- TextButton
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.arrow_downward,
+                    size: 10.0,
+                  ),
+                  style: TextButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      iconColor: Colors.red,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      alignment: Alignment.centerLeft),
+                  label: Text(
+                    "${inSpeed / 1024 ~/ 1024}Mb/s",
+                    style: statusTextStyle,
+                  ),
+                ),
+                TextButton.icon(
+                  // <-- TextButton
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.arrow_upward,
+                    size: 10.0,
+                  ),
+                  style: TextButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      iconColor: Colors.green,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      alignment: Alignment.centerLeft),
+                  label: Text(
+                    "${outSpeed / 1024 ~/ 1024}Mb/s",
+                    style: statusTextStyle,
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),
     );
   }
 
-  Widget _buildIOData(String up, String down) {
+  Widget _buildDiskData(DiskInfo diskInfo) {
     final statusTextStyle = TextStyle(
         fontSize: 9, color: _theme.textTheme.bodyLarge!.color!.withAlpha(177));
     return SizedBox(
       width: _media.size.width * 0.2,
-      child: Column(
+      child: Stack(
         children: [
-          const SizedBox(height: 5),
-          Text(
-            up,
-            style: statusTextStyle,
-            textAlign: TextAlign.center,
-            textScaleFactor: 1.0,
+          Center(
+              child: getChart(diskInfo.usedPercent.toDouble(),
+                  100 - diskInfo.usedPercent.toDouble())),
+          Positioned.fill(
+            child: Center(
+              child: Text(
+                "Total:${diskInfo.size}\nUsed:${diskInfo.usedPercent}%",
+                textAlign: TextAlign.center,
+                style: statusTextStyle,
+                textScaleFactor: 1.0,
+              ),
+            ),
           ),
-          const SizedBox(height: 3),
-          Text(
-            down,
-            style: statusTextStyle,
-            textAlign: TextAlign.center,
-            textScaleFactor: 1.0,
-          )
         ],
       ),
     );
   }
 
-  PieChart getChart(double first) {
+  Widget _buildPercentCircle(double percent) {
+    if (percent <= 0) percent = 0.01;
+    if (percent >= 100) percent = 99.9;
+    return SizedBox(
+      width: _media.size.width * 0.2,
+      child: Stack(
+        children: [
+          Center(child: getChart(percent, 100 - percent)),
+          Positioned.fill(
+            child: Center(
+              child: Text(
+                '${percent.toStringAsFixed(1)}%',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 11),
+                textScaleFactor: 1.0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  PieChart getChart(double first, double second) {
     return PieChart(
-      dataMap: {"1": first, "2": 100 - first},
+      dataMap: {"1": first, "2": second},
       animationDuration: Duration(milliseconds: 800),
       chartLegendSpacing: 32,
       chartRadius: MediaQuery.of(context).size.width / 3.2,
@@ -453,37 +506,6 @@ class _ServerPageState extends State<ServerPage>
       ),
       // gradientList: ---To add gradient colors---
       // emptyColorGradient: ---Empty Color gradient---
-    );
-  }
-
-  Widget _buildPercentCircle(double percent) {
-    if (percent <= 0) percent = 0.01;
-    if (percent >= 100) percent = 99.9;
-    return SizedBox(
-      width: _media.size.width * 0.2,
-      child: Stack(
-        children: [
-          Center(child: getChart(percent)
-              /*CircleChart(
-              progressColor: primaryColor,
-              progressNumber: percent,
-              maxNumber: 100,
-              width: 53,
-              height: 53,
-            ),*/
-              ),
-          Positioned.fill(
-            child: Center(
-              child: Text(
-                '${percent.toStringAsFixed(1)}%',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 11),
-                textScaleFactor: 1.0,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 

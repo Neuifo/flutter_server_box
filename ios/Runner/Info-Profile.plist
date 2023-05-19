@@ -18,7 +18,7 @@
 		<string>zh</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>ServerBox</string>
+	<string>ServerDog</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -63,6 +63,6 @@
 		<string>_dartobservatory._tcp</string>
 	</array>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>ServerBox needs to access your local network to discover and connect to your server.</string>
+	<string>ServerDog needs to access your local network to discover and connect to your server.</string>
 </dict>
 </plist>
