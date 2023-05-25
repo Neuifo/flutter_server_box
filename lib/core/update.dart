@@ -22,9 +22,9 @@ final _logger = Logger('UPDATE');
 Future<bool> handleRegistInfo(
     BuildContext context, RegistInfo registInfo, String? code) async {
   final _setting = locator<SettingStore>();
-  _setting.maxServers.put(registInfo.serviceNumbers);
-  _setting.registed.put(true);
-  _setting.registType.put(registInfo.registType);
+  await _setting.maxServers.put(registInfo.serviceNumbers);
+  await _setting.registed.put(true);
+  await _setting.registType.put(registInfo.registType);
   S s = S.of(context)!;
 
   switch (registInfo.registType) {
@@ -33,7 +33,7 @@ Future<bool> handleRegistInfo(
     case 2: //years
       DateTime currentTime = DateTime.now();
       if (currentTime.millisecondsSinceEpoch > registInfo.registTime) {
-        _setting.registed.put(false);
+        await _setting.registed.put(false);
         showRoundDialog(
           context: context,
           child: Text(s.registExpired),
@@ -46,12 +46,12 @@ Future<bool> handleRegistInfo(
         );
         return false;
       } else {
-        _setting.registKey.put(code!);
+        await _setting.registKey.put(code!);
         return true;
       }
       break;
     case 3: //all day
-      _setting.registKey.put(code!);
+      await _setting.registKey.put(code!);
       return true;
       break;
     default:

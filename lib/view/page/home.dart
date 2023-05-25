@@ -339,9 +339,9 @@ class _MyHomePageState extends State<MyHomePage>
   Future<void> afterFirstLayout(BuildContext context) async {
     await GetIt.I.allReady();
     await _serverProvider.loadLocalData();
+    await checkRegistStatus(context);
     await _serverProvider.refreshData();
     //await doUpdate(context);
-    await checkRegistStatus(context);
     if (!Analysis.enabled) {
       await Analysis.init();
     }
