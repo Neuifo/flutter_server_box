@@ -382,7 +382,9 @@ class _ServerPageState extends State<ServerPage>
       case ServerState.connected:
         final tempStr = temp == null ? '' : '${temp.toStringAsFixed(1)}°C';
         final items = [tempStr, upTime];
-        return items.where((element) => element.isNotEmpty).join(' | ');
+        final str = items.where((element) => element.isNotEmpty).join(' | ');
+        if (str.isEmpty) return _s.serverTabLoading;
+        return str;
       case ServerState.connecting:
         return _s.serverTabConnecting;
       case ServerState.failed:
