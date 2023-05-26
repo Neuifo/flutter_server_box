@@ -27,14 +27,13 @@ class _ServerDetailPageState extends State<ServerDetailPage>
     with SingleTickerProviderStateMixin {
   late MediaQueryData _media;
   late S _s;
-  bool _showDistLogo = true;
+  final _setting = locator<SettingStore>();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _media = MediaQuery.of(context);
     _s = S.of(context)!;
-    _showDistLogo = locator<SettingStore>().showDistLogo.fetch()!;
   }
 
   @override
@@ -78,7 +77,7 @@ class _ServerDetailPageState extends State<ServerDetailPage>
   }
 
   Widget _buildLinuxIcon(String sysVer) {
-    if (!_showDistLogo) return placeholder;
+    if (!_setting.showDistLogo.fetch()!) return placeholder;
     final iconPath = sysVer.dist?.iconPath;
     if (iconPath == null) return placeholder;
     return ConstrainedBox(
@@ -276,13 +275,13 @@ class _ServerDetailPageState extends State<ServerDetailPage>
   }
 
   Widget _buildDiskView(ServerStatus ss) {
-    final clone = ss.disk.toList();
-    for (var item in ss.disk) {
-      if (_ignorePath.any((ele) => item.path.startsWith(ele))) {
-        clone.remove(item);
+    ss.disk.removeWhere((e) {
+      for (final ingorePath in _setting.diskIgnorePath.fetch()!) {
+        if (e.path.startsWith(ingorePath)) return true;
       }
-    }
-    final children = clone
+      return false;
+    });
+    final children = ss.disk
         .map((disk) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 3),
               child: Column(
@@ -358,14 +357,14 @@ class _ServerDetailPageState extends State<ServerDetailPage>
   }
 
   Widget _buildNetSpeedItem(NetSpeed ns, String device) {
-    final width = (_media.size.width - 34 - 34) / 3;
+    final width = (_media.size.width - 34 - 34) / 2.9;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: width,
+            width: width / 1.2,
             child: Text(
               device,
               style: textSize11,
@@ -378,7 +377,7 @@ class _ServerDetailPageState extends State<ServerDetailPage>
               '${ns.speedIn(device: device)} | ${ns.totalIn(device: device)}',
               style: textSize11,
               textAlign: TextAlign.center,
-              textScaleFactor: 0.9,
+              textScaleFactor: 0.87,
             ),
           ),
           SizedBox(
@@ -387,7 +386,7 @@ class _ServerDetailPageState extends State<ServerDetailPage>
               '${ns.speedOut(device: device)} | ${ns.totalOut(device: device)}',
               style: textSize11,
               textAlign: TextAlign.right,
-              textScaleFactor: 0.9,
+              textScaleFactor: 0.87,
             ),
           )
         ],
@@ -407,7 +406,10 @@ class _ServerDetailPageState extends State<ServerDetailPage>
           Icon(Icons.arrow_downward, size: 17),
         ],
       ),
-      const Padding(padding: EdgeInsets.symmetric(vertical: 3), child: Divider(height: 7),),
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 3),
+        child: Divider(height: 7),
+      ),
     ];
     children.addAll(ss.temps.devices.map((key) => Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -429,6 +431,4 @@ class _ServerDetailPageState extends State<ServerDetailPage>
       child: Column(children: children),
     ));
   }
-
-  static const _ignorePath = ['udev', 'tmpfs', 'devtmpfs'];
 }
