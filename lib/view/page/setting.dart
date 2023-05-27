@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:toolbox/core/extension/locale.dart';
 import 'package:toolbox/core/extension/navigator.dart';
 import 'package:toolbox/data/model/app/tab.dart';
 import 'package:toolbox/view/widget/input_field.dart';
 
 import '../../core/utils/misc.dart';
 import '../../core/utils/platform.dart';
-import '../../data/model/ssh/terminal_color.dart';
 import '../../core/update.dart';
 import '../../core/utils/ui.dart';
 import '../../data/provider/app.dart';
@@ -36,9 +36,9 @@ class _SettingPageState extends State<SettingPage> {
   final themeKey = GlobalKey<PopupMenuButtonState<int>>();
   final startPageKey = GlobalKey<PopupMenuButtonState<int>>();
   final updateIntervalKey = GlobalKey<PopupMenuButtonState<int>>();
-  final termThemeKey = GlobalKey<PopupMenuButtonState<int>>();
   final maxRetryKey = GlobalKey<PopupMenuButtonState<int>>();
   final fontSizeKey = GlobalKey<PopupMenuButtonState<double>>();
+  final localeKey = GlobalKey<PopupMenuButtonState<String>>();
 
   late final SettingStore _setting;
   late final ServerProvider _serverProvider;
@@ -47,11 +47,11 @@ class _SettingPageState extends State<SettingPage> {
 
   late int _selectedColorValue;
   late int _launchPageIdx;
-  late int _termThemeIdx;
   late int _nightMode;
   late int _maxRetryCount;
   late int _updateInterval;
   late double _fontSize;
+  late String _localeCode;
 
   String? _pushToken;
 
@@ -60,6 +60,7 @@ class _SettingPageState extends State<SettingPage> {
     super.didChangeDependencies();
     _media = MediaQuery.of(context);
     _s = S.of(context)!;
+    _localeCode = _setting.locale.fetch() ?? _s.localeName;
   }
 
   @override
@@ -68,7 +69,6 @@ class _SettingPageState extends State<SettingPage> {
     _serverProvider = locator<ServerProvider>();
     _setting = locator<SettingStore>();
     _launchPageIdx = _setting.launchPage.fetch()!;
-    _termThemeIdx = _setting.termColorIdx.fetch()!;
     _nightMode = _setting.themeMode.fetch()!;
     _updateInterval = _setting.serverStatusUpdateInterval.fetch()!;
     _maxRetryCount = _setting.maxRetryCount.fetch()!;
@@ -114,6 +114,7 @@ class _SettingPageState extends State<SettingPage> {
 
   Widget _buildApp() {
     final children = [
+      _buildLocale(),
       _buildThemeMode(),
       _buildAppColorPreview(),
       //_buildLaunchPage(),
@@ -147,6 +148,7 @@ class _SettingPageState extends State<SettingPage> {
         _buildTermTheme(),
         _buildFont(),
         _buildTermFontSize(),
+        _buildSSHVirtualKeyAutoOff(),
       ].map((e) => RoundRectCard(e)).toList(),
     );
   }
@@ -303,40 +305,6 @@ class _SettingPageState extends State<SettingPage> {
             textAlign: TextAlign.right,
             style: textSize15,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTermTheme() {
-    final items = TerminalColorsPlatform.values
-        .map(
-          (e) => PopupMenuItem<int>(
-            value: e.index,
-            child: Text(e.name),
-          ),
-        )
-        .toList();
-    return ListTile(
-      title: Text(
-        _s.theme,
-      ),
-      onTap: () {
-        termThemeKey.currentState?.showButtonMenu();
-      },
-      trailing: PopupMenuButton(
-        key: termThemeKey,
-        itemBuilder: (BuildContext context) => items,
-        initialValue: _termThemeIdx,
-        onSelected: (int idx) {
-          setState(() {
-            _termThemeIdx = idx;
-          });
-          _setting.termColorIdx.put(idx);
-        },
-        child: Text(
-          TerminalColorsPlatform.values[_termThemeIdx].name,
-          style: textSize15,
         ),
       ),
     );
@@ -596,6 +564,47 @@ class _SettingPageState extends State<SettingPage> {
               },
             ));
       },
+    );
+  }
+
+  Widget _buildLocale() {
+    final items = S.supportedLocales
+        .map(
+          (e) => PopupMenuItem<String>(
+            value: e.name,
+            child: Text(e.name),
+          ),
+        )
+        .toList();
+    return ListTile(
+      title: Text(_s.language),
+      onTap: () {
+        localeKey.currentState?.showButtonMenu();
+      },
+      trailing: PopupMenuButton(
+        key: localeKey,
+        itemBuilder: (BuildContext context) => items,
+        initialValue: _localeCode,
+        onSelected: (String idx) {
+          setState(() {
+            _localeCode = idx;
+          });
+          _setting.locale.put(idx);
+          _showRestartSnackbar();
+        },
+        child: Text(
+          _s.languageName,
+          style: textSize15,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSSHVirtualKeyAutoOff() {
+    return ListTile(
+      title: Text(_s.sshVirtualKeyAutoOff),
+      subtitle: const Text('Ctrl & Alt', style: grey),
+      trailing: buildSwitch(context, _setting.sshVirtualKeyAutoOff),
     );
   }
 }

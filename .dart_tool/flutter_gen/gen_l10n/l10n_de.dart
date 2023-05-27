@@ -476,6 +476,9 @@ class SDe extends S {
   }
 
   @override
+  String get sshVirtualKeyAutoOff => 'Automatische Umschaltung der virtuellen Tasten';
+
+  @override
   String get start => 'Start';
 
   @override

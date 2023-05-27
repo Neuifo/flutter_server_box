@@ -476,6 +476,9 @@ class SEn extends S {
   }
 
   @override
+  String get sshVirtualKeyAutoOff => 'Auto switching of virtual keys';
+
+  @override
   String get start => 'Start';
 
   @override
