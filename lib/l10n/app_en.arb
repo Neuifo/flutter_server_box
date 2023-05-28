@@ -45,6 +45,7 @@
   "downloadFinished": "Download finished",
   "downloadStatus": "{percent}% of {size}",
   "edit": "Edit",
+  "editor": "Editor",
   "encode": "Encode",
   "error": "Error",
   "exampleName": "Example name",

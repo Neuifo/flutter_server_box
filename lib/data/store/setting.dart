@@ -83,4 +83,8 @@ class SettingStore extends PersistentStore {
   // SSH virtual key (ctrl | alt) auto turn off
   StoreProperty<bool> get sshVirtualKeyAutoOff =>
       property('sshVirtualKeyAutoOff', defaultValue: true);
+
+  // Editor theme
+  StoreProperty<String> get editorTheme =>
+      property('editorTheme', defaultValue: 'monokai');
 }
