@@ -65,6 +65,9 @@ dependencies:
   plain_notification_token: ^0.0.4
   pie_chart: ^5.3.2
   platform_device_id: ^1.0.1
+  highlight: ^0.7.0
+  flutter_highlight: ^0.7.0
+  flutter_code_editor: ^0.2.23
 
 dev_dependencies:
   flutter_native_splash: ^2.1.6
