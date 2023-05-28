@@ -64,6 +64,7 @@ dependencies:
   file_picker: ^5.2.5
   plain_notification_token: ^0.0.4
   pie_chart: ^5.3.2
+  platform_device_id: ^1.0.1
 
 dev_dependencies:
   flutter_native_splash: ^2.1.6

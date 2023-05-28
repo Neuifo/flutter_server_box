@@ -29,6 +29,35 @@ import 'dart:convert';
 
 import '/core/utils/platform.dart';
 
+class RegistInfo {
+  RegistInfo({
+    required this.registName,
+    required this.registType,
+    required this.registTime,
+    required this.serviceNumbers,
+  });
+
+  String toRawJson() => json.encode(toJson());
+
+  Map<String, dynamic> toJson() => {
+        "registName": registName,
+        "registType": registType,
+        "registTime": registTime,
+        "serviceNumbers": serviceNumbers
+      };
+
+  factory RegistInfo.fromJson(Map<String, dynamic> json) => RegistInfo(
+      registName: json["registName"],
+      registType: json["registType"],
+      registTime: json["registTime"],
+      serviceNumbers: json["serviceNumbers"]);
+
+  final String registName;
+  final int registType;
+  final int registTime;
+  final int serviceNumbers;
+}
+
 class AppUpdate {
   AppUpdate({
     required this.changelog,

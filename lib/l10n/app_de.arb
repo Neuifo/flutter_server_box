@@ -171,5 +171,11 @@
   "versionUpdated": "v1.0.{build} ist bereits die neueste Version",
   "viewErr": "Fehler anzeigen",
   "waitConnection": "Bitte warte, bis die Verbindung hergestellt wurde.",
-  "willTakEeffectImmediately": "Wird sofort angewendet"
+  "willTakEeffectImmediately": "Wird sofort angewendet",
+  "unregister_info": "You are a restricted user Only {number} services supported",
+  "keep_use": "Keep",
+  "buyService": "Buy",
+  "normalVersion": "Normal ver",
+  "registerVersion": "Premium ver",
+  "registExpired": "Register Expired"
 }

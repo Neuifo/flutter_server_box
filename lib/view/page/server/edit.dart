@@ -14,6 +14,7 @@ import '../../../data/provider/server.dart';
 import '../../../data/res/ui.dart';
 import '../../../data/store/private_key.dart';
 import '../../../locator.dart';
+import '../../widget/utils.dart';
 import '../private_key/edit.dart';
 
 class ServerEditPage extends StatefulWidget {
@@ -63,6 +64,7 @@ class _ServerEditPageState extends State<ServerEditPage> with AfterLayoutMixin {
       appBar: _buildAppBar(),
       body: _buildForm(),
       floatingActionButton: _buildFAB(),
+      floatingActionButtonLocation: const CustomDockedFloatingActionButtonLocation(),
     );
   }
 

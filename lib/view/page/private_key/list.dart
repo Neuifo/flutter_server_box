@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../core/route.dart';
 import '../../../data/provider/private_key.dart';
 import '../../../data/res/ui.dart';
+import '../../widget/utils.dart';
 import 'edit.dart';
 import '../../../view/widget/round_rect_card.dart';
 
@@ -31,6 +32,7 @@ class _PrivateKeyListState extends State<PrivateKeysListPage> {
         title: Text(_s.privateKey, style: textSize18),
       ),
       body: _buildBody(),
+      floatingActionButtonLocation: const CustomDockedFloatingActionButtonLocation(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => AppRoute(

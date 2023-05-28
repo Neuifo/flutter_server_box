@@ -62,11 +62,11 @@ class _ServerDetailPageState extends State<ServerDetailPage>
         children: [
           ...(_buildLinuxIcon(si.status.sysVer) ?? []),
           _buildUpTimeAndSys(si.status),
+          _buildNetView(si.status.netSpeed),
           _buildCPUView(si.status),
           _buildMemView(si.status),
           _buildSwapView(si.status),
           _buildDiskView(si.status),
-          _buildNetView(si.status.netSpeed),
           // avoid the hieght of navigation bar
           SizedBox(height: _media.padding.bottom),
         ],

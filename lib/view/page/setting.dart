@@ -111,7 +111,7 @@ class _SettingPageState extends State<SettingPage> {
     final children = [
       _buildThemeMode(),
       _buildAppColorPreview(),
-      _buildLaunchPage(),
+      //_buildLaunchPage(),
       _buildCheckUpdate(),
     ];
     if (isIOS) {
@@ -128,7 +128,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget _buildServer() {
     return Column(
       children: [
-        _buildDistLogoSwitch(),
+        //_buildDistLogoSwitch(),
         _buildUpdateInterval(),
         _buildMaxRetry(),
       ].map((e) => RoundRectCard(e)).toList(),

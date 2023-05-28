@@ -1132,6 +1132,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Will take effect immediately'**
   String get willTakEeffectImmediately;
+
+  /// No description provided for @unregister_info.
+  ///
+  /// In en, this message translates to:
+  /// **'You are a restricted user Only {number} services supported'**
+  String unregister_info(Object number);
+
+  /// No description provided for @keep_use.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep'**
+  String get keep_use;
+
+  /// No description provided for @buyService.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get buyService;
+
+  /// No description provided for @normalVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal ver'**
+  String get normalVersion;
+
+  /// No description provided for @registerVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium ver'**
+  String get registerVersion;
+
+  /// No description provided for @registExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Expired'**
+  String get registExpired;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

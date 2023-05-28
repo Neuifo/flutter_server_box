@@ -1,6 +1,8 @@
-const backendUrl = 'https://res.lolli.tech';
-const baseUrl = '$backendUrl/serverbox';
-const joinQQGroupUrl = 'https://jq.qq.com/?_wv=1027&k=G0hUmPAq';
+import 'package:flutter/foundation.dart';
+
+
+const backendUrl = kDebugMode? "http://192.168.50.168:6657" : "https://res.lolli.tech";
+const baseUrl = '$backendUrl/serverdog';
 const myGithub = 'https://github.com/lollipopkit';
 const issueUrl = '$myGithub/flutter_server_box/issues';
 

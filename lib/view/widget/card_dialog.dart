@@ -16,7 +16,7 @@ class CardDialog extends StatelessWidget {
       contentPadding: padding,
       actionsPadding: const EdgeInsets.all(7),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
       title: title,
       content: content,

@@ -25,6 +25,7 @@ import '../../../locator.dart';
 import '../../widget/popup_menu.dart';
 import '../../widget/round_rect_card.dart';
 import '../../widget/url_text.dart';
+import '../../widget/utils.dart';
 import '../docker.dart';
 import '../pkg.dart';
 import '../sftp/view.dart';
@@ -62,16 +63,52 @@ class _ServerPageState extends State<ServerPage>
     _s = S.of(context)!;
   }
 
+  void checkLimitService(Server server) {
+    final size = _settingStore.maxServers.fetch()!;
+    if (_serverProvider.serverOrder.indexOf(server.spi.id) < size) {
+      AppRoute(
+        ServerDetailPage(server.spi.id),
+        'server detail page',
+      ).go(context);
+    } else {
+      handleEdit(context);
+    }
+  }
+
+  void handleEdit(BuildContext context) {
+    if (_serverProvider.serverOrder.length >=
+        _settingStore.maxServers.fetch()!) {
+      showRoundDialog(
+        context: context,
+        child: Text(_s.unregister_info(_settingStore.maxServers.fetch()!)),
+        actions: [
+          TextButton(
+            onPressed: () => {Navigator.of(context).pop()},
+            child: Text(_s.keep_use),
+          ),
+          TextButton(
+            onPressed: () => {},
+            child: Text(_s.buyService),
+          )
+        ],
+      );
+    } else {
+      AppRoute(
+        const ServerEditPage(),
+        'Add server info page',
+      ).go(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       body: _buildBody(),
+      floatingActionButtonLocation:
+          const CustomDockedFloatingActionButtonLocation(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => AppRoute(
-          const ServerEditPage(),
-          'Add server info page',
-        ).go(context),
+        onPressed: () => handleEdit(context),
         tooltip: _s.addAServer,
         heroTag: 'server page fab',
         child: const Icon(Icons.add),
@@ -119,10 +156,7 @@ class _ServerPageState extends State<ServerPage>
           padding: const EdgeInsets.all(10),
           child: _buildRealServerCard(si.status, si.state, si.spi),
         ),
-        onTap: () => AppRoute(
-          ServerDetailPage(si.spi.id),
-          'server detail page',
-        ).go(context),
+        onTap: () => checkLimitService(si),
       ),
       key: Key(si.spi.id),
     );
@@ -239,7 +273,8 @@ class _ServerPageState extends State<ServerPage>
         size: 21,
       ),
       onTap: () async {
-        if (_settingStore.firstTimeUseSshTerm.fetch()!) {
+        AppRoute(SSHPage(spi: spi), 'ssh page').go(context);
+        /*if (_settingStore.firstTimeUseSshTerm.fetch()!) {
           await showRoundDialog(
             context: context,
             child: UrlText(
@@ -259,7 +294,7 @@ class _ServerPageState extends State<ServerPage>
           );
         } else {
           AppRoute(SSHPage(spi: spi), 'ssh page').go(context);
-        }
+        }*/
       },
     );
   }
@@ -358,6 +393,14 @@ class _ServerPageState extends State<ServerPage>
       inSpeed += netSpeed.getSpeedIn(device: e);
       outSpeed += netSpeed.getSpeedOut(device: e);
     }
+    if (inSpeed.isInfinite || inSpeed.isNaN) {
+      inSpeed = 0;
+    }
+
+    if (outSpeed.isInfinite || outSpeed.isNaN) {
+      outSpeed = 0;
+    }
+
     return SizedBox(
       width: _media.size.width * 0.2,
       child: Stack(

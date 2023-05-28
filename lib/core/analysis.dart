@@ -20,12 +20,12 @@ class Analysis {
     }
     if (isAndroid || isIOS) {
       enabled = true;
-      final config = CountlyConfig(_url, _key)
-          .setLoggingEnabled(false)
-          .enableCrashReporting();
-      await Countly.initWithConfig(config);
-      await Countly.start();
-      await Countly.giveAllConsent();
+      // final config = CountlyConfig(_url, _key)
+      //     .setLoggingEnabled(false)
+      //     .enableCrashReporting();
+      // await Countly.initWithConfig(config);
+      // await Countly.start();
+      // await Countly.giveAllConsent();
     } else {
       Logger('COUNTLY')
           .info('Unsupported platform ${Platform.operatingSystem}');
@@ -34,13 +34,13 @@ class Analysis {
 
   static void recordView(String view) {
     if (enabled) {
-      Countly.recordView(view);
+      //Countly.recordView(view);
     }
   }
 
   static void recordException(Object exception, [bool fatal = false]) {
     if (enabled) {
-      Countly.logException(exception.toString(), !fatal, null);
+      //Countly.logException(exception.toString(), !fatal, null);
     }
   }
 }

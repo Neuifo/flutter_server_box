@@ -41,6 +41,7 @@ extension ServerOrderX on ServerOrder {
 
 class ServerProvider extends BusyProvider {
   final ServersMap _servers = {};
+
   ServersMap get servers => _servers;
   final ServerOrder serverOrder = [];
 
@@ -90,13 +91,28 @@ class ServerProvider extends BusyProvider {
       await _getData(spi);
       return;
     }
-    await Future.wait(_servers.values.map((s) async {
+    await Future.wait(serverOrder.map((serverId) async {
+      //return loopServer(e);
+      final size = _settingStore.maxServers.fetch()!;
+      if (serverOrder.indexOf(serverId) < size) {
+        late ServerPrivateInfo spi;
+        for (var v in _servers.values) {
+          ServerPrivateInfo temp = v.spi;
+          if (temp.id == serverId) {
+            spi = temp;
+            break;
+          }
+        }
+        return await _getData(spi);
+      }
+    }));
+    /*await Future.wait(_servers.values.map((s) async {
       if (onlyFailed) {
         if (s.state != ServerState.failed) return;
         _limiter.resetTryTimes(s.spi.id);
       }
       return await _getData(s.spi);
-    }));
+    }));*/
   }
 
   Future<void> startAutoRefresh() async {

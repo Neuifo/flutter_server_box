@@ -17,6 +17,7 @@ import '../../../data/model/server/private_key_info.dart';
 import '../../../data/provider/private_key.dart';
 import '../../../data/res/ui.dart';
 import '../../../locator.dart';
+import '../../widget/utils.dart';
 
 const _format = 'text/plain';
 
@@ -63,6 +64,7 @@ class _PrivateKeyEditPageState extends State<PrivateKeyEditPage>
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
+      floatingActionButtonLocation: const CustomDockedFloatingActionButtonLocation(),
       floatingActionButton: _buildFAB(),
     );
   }

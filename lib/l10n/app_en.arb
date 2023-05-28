@@ -171,5 +171,11 @@
   "versionUpdated": "Current: v1.0.{build}, is up to date",
   "viewErr": "See error",
   "waitConnection": "Please wait for the connection to be established.",
-  "willTakEeffectImmediately": "Will take effect immediately"
+  "willTakEeffectImmediately": "Will take effect immediately",
+  "unregister_info": "You are a restricted user Only {number} services supported",
+  "keep_use": "Keep",
+  "buyService": "Buy",
+  "normalVersion": "Normal ver",
+  "registerVersion": "Premium ver",
+  "registExpired": "Register Expired"
 }

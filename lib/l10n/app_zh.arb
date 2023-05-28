@@ -171,5 +171,12 @@
   "versionUpdated": "当前：v1.0.{build}, 已是最新版本",
   "viewErr": "查看错误",
   "waitConnection": "请等待连接建立",
-  "willTakEeffectImmediately": "更改将会立即生效"
+  "willTakEeffectImmediately": "更改将会立即生效",
+  "unregister_info": "您是受限用户，暂时仅支持{number}个服务",
+  "keep_use": "继续使用",
+  "buyService": "购买服务",
+  "normalVersion": "普通版",
+  "registerVersion": "高级版",
+  "registExpired": "注册过期"
+
 }

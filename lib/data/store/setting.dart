@@ -18,7 +18,7 @@ class SettingStore extends PersistentStore {
 
   /// Show logo on server detail page
   StoreProperty<bool> get showDistLogo =>
-      property('showDistLogo', defaultValue: true);
+      property('showDistLogo', defaultValue: false);
 
   /// First time to use SSH term
   StoreProperty<bool> get firstTimeUseSshTerm =>
@@ -39,6 +39,13 @@ class SettingStore extends PersistentStore {
 
   /// Backgroud running (Android)
   StoreProperty<bool> get bgRun => property('bgRun', defaultValue: isAndroid);
+
+  //Registed
+  StoreProperty<bool> get registed => property('registed', defaultValue: false);
+
+  StoreProperty<int> get maxServers => property('maxServers', defaultValue: 3);
+
+  StoreProperty<String> get registKey => property('registKey',defaultValue: "");
 
   // Server order
   StoreProperty<List<String>> get serverOrder =>

@@ -122,9 +122,9 @@ class _MyHomePageState extends State<MyHomePage>
             FocusScope.of(context).requestFocus(FocusNode());
           });
         },
-        children: const [ServerPage(),PingPage()],
+        children: const [ServerPage()],
       ),
-      bottomNavigationBar: _buildBottomBar(context),
+      //bottomNavigationBar: _buildBottomBar(context),
     );
   }
 
@@ -162,6 +162,10 @@ class _MyHomePageState extends State<MyHomePage>
     );
   }
 
+  Future<void> registApp() async {
+    await checkRegistStatus(context);
+  }
+
   Widget _buildDrawer() {
     return Drawer(
       surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
@@ -188,6 +192,11 @@ class _MyHomePageState extends State<MyHomePage>
             padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Column(
               children: [
+                ListTile(
+                  leading: const Icon(Icons.upgrade),
+                  title: Text(_s.normalVersion),
+                  onTap: () => registApp(),
+                ),
                 ListTile(
                   leading: const Icon(Icons.settings),
                   title: Text(_s.setting),
@@ -314,6 +323,7 @@ class _MyHomePageState extends State<MyHomePage>
     await _serverProvider.loadLocalData();
     await _serverProvider.refreshData();
     //await doUpdate(context);
+    await checkRegistStatus(context);
     if (!Analysis.enabled) {
       await Analysis.init();
     }

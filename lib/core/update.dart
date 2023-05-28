@@ -2,17 +2,54 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:logging/logging.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:r_upgrade/r_upgrade.dart';
 import 'package:toolbox/core/extension/navigator.dart';
 
 import '../data/provider/app.dart';
 import '../data/res/build_data.dart';
 import '../data/service/app.dart';
+import '../data/store/setting.dart';
 import '../locator.dart';
 import 'utils/platform.dart';
 import 'utils/ui.dart';
 
 final _logger = Logger('UPDATE');
+
+Future<void> checkRegistStatus(BuildContext context) async {
+  final _setting = locator<SettingStore>();
+  //final id = _setting.registed.fetch()! ? _setting.registinfo.fetch() : null;
+  String? id = await PlatformDeviceId.getDeviceId;
+  String? code = _setting.registKey.fetch();
+  final registInfo = await locator<AppService>().getRegist(id,code);
+  _setting.maxServers.put(registInfo.serviceNumbers);
+  _setting.registed.put(true);
+  S s =S.of(context)!;
+
+  switch (registInfo.registType) {
+    case 0: //week
+    case 1: //month
+    case 2: //years
+      DateTime currentTime = DateTime.now();
+      if (currentTime.millisecondsSinceEpoch > registInfo.registTime) {
+        showRoundDialog(
+          context: context,
+          child: Text(s.registExpired),
+          actions: [
+            TextButton(
+              onPressed: () => context.pop(),
+              child: Text(s.ok),
+            )
+          ],
+        );
+      }
+      break;
+    case 3: //all day
+      break;
+    default:
+      '';
+  }
+}
 
 Future<bool> isFileAvailable(String url) async {
   try {

@@ -566,4 +566,24 @@ class SZh extends S {
 
   @override
   String get willTakEeffectImmediately => '更改将会立即生效';
+
+  @override
+  String unregister_info(Object number) {
+    return '您是受限用户，暂时仅支持$number个服务';
+  }
+
+  @override
+  String get keep_use => '继续使用';
+
+  @override
+  String get buyService => '购买服务';
+
+  @override
+  String get normalVersion => '普通版';
+
+  @override
+  String get registerVersion => '高级版';
+
+  @override
+  String get registExpired => '注册过期';
 }

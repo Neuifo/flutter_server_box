@@ -566,4 +566,24 @@ class SEn extends S {
 
   @override
   String get willTakEeffectImmediately => 'Will take effect immediately';
+
+  @override
+  String unregister_info(Object number) {
+    return 'You are a restricted user Only $number services supported';
+  }
+
+  @override
+  String get keep_use => 'Keep';
+
+  @override
+  String get buyService => 'Buy';
+
+  @override
+  String get normalVersion => 'Normal ver';
+
+  @override
+  String get registerVersion => 'Premium ver';
+
+  @override
+  String get registExpired => 'Register Expired';
 }
