@@ -15,6 +15,7 @@ import '../../../data/res/ui.dart';
 import '../../../data/store/private_key.dart';
 import '../../../locator.dart';
 import '../../widget/utils.dart';
+import '../../widget/tag.dart';
 import '../private_key/edit.dart';
 
 class ServerEditPage extends StatefulWidget {
@@ -44,6 +45,7 @@ class _ServerEditPageState extends State<ServerEditPage> with AfterLayoutMixin {
   bool usePublicKey = false;
   int? _pubKeyIndex;
   PrivateKeyInfo? _keyInfo;
+  List<String> _tags = [];
 
   @override
   void initState() {
@@ -144,6 +146,13 @@ class _ServerEditPageState extends State<ServerEditPage> with AfterLayoutMixin {
             label: _s.user,
             icon: Icons.account_box,
             hint: 'root',
+          ),
+          TagEditor(
+            tags: _tags,
+            onChanged: (p0) => setState(() {
+              _tags = p0;
+            }),
+            s: _s,
           ),
           width7,
           Row(
@@ -264,6 +273,7 @@ class _ServerEditPageState extends State<ServerEditPage> with AfterLayoutMixin {
           user: _usernameController.text,
           pwd: authorization,
           pubKeyId: usePublicKey ? _keyInfo!.id : null,
+          tags: _tags,
         );
 
         if (widget.spi == null) {
@@ -301,6 +311,9 @@ class _ServerEditPageState extends State<ServerEditPage> with AfterLayoutMixin {
         _passwordController.text = widget.spi?.pwd ?? '';
       } else {
         usePublicKey = true;
+      }
+      if (widget.spi?.tags != null) {
+        _tags = widget.spi!.tags!;
       }
       setState(() {});
     }
