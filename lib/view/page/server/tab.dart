@@ -120,6 +120,7 @@ class _ServerPageState extends State<ServerPage>
       floatingActionButton: FloatingActionButton(
         onPressed: () => handleEdit(context),
         tooltip: _s.addAServer,
+        heroTag: 'server',
         child: const Icon(Icons.add),
       ),
     );
