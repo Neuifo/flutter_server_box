@@ -164,6 +164,19 @@ Future<void> flutterBuildMacOS() async {
 Future<void> flutterBuildAndroid() async {
   await flutterBuild(apkPath, '${appName}_build_Arm64.apk', 'apk');
   await killJava();
+  await scp2CDN();
+}
+
+Future<void> scp2CDN() async {
+  final result = await Process.run('scp', [
+    apkPath,
+    'custcdn:/usr/share/caddy/uploads/${appName}_${build}_Arm64.apk'
+  ]);
+  print(result.stdout);
+  if (result.exitCode != 0) {
+    print(result.stderr);
+    exit(1);
+  }
 }
 
 Future<void> changeAppleVersion() async {
