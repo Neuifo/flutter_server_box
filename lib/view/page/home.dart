@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:get_it/get_it.dart';
 import 'package:toolbox/core/extension/navigator.dart';
+import 'package:toolbox/data/model/app/tab.dart';
 import 'package:toolbox/data/provider/app.dart';
 import 'package:toolbox/data/res/misc.dart';
 import 'package:toolbox/view/page/server/regist.dart';
@@ -55,6 +56,10 @@ class _HomePageState extends State<HomePage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _selectIndex = _setting.launchPage.fetch()!;
+    // avoid index out of range
+    if (_selectIndex >= AppTab.values.length || _selectIndex < 0) {
+      _selectIndex = 0;
+    }
     _pageController = PageController(initialPage: _selectIndex);
   }
 
@@ -109,8 +114,10 @@ class _HomePageState extends State<HomePage>
           /*IconButton(
             icon: const Icon(Icons.developer_mode, size: 23),
             tooltip: _s.debug,
-            onPressed: () =>
-                AppRoute(const DebugPage(), 'Debug Page').go(context),
+            onPressed: () => AppRoute(
+              const DebugPage(),
+              'Debug Page',
+            ).go(context),
           ),*/
         ],
       ),
@@ -238,7 +245,7 @@ class _HomePageState extends State<HomePage>
                   title: Text(_s.download),
                   onTap: () => AppRoute(
                     const SFTPDownloadedPage(),
-                    'snippet list',
+                    'sftp local page',
                   ).go(context),
                 ),
                 ListTile(
@@ -256,7 +263,7 @@ class _HomePageState extends State<HomePage>
                     const ConvertPage(),
                     'convert page',
                   ).go(context),
-                ),
+                )
                 /*ListTile(
                   leading: const Icon(Icons.text_snippet),
                   title: Text('${_s.about} & ${_s.feedback}'),
