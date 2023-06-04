@@ -6,6 +6,7 @@ import 'package:platform_device_id/platform_device_id.dart';
 import 'package:r_upgrade/r_upgrade.dart';
 import 'package:toolbox/core/extension/navigator.dart';
 
+import '../data/model/app/update.dart';
 import '../data/provider/app.dart';
 import '../data/res/build_data.dart';
 import '../data/service/app.dart';
@@ -16,12 +17,8 @@ import 'utils/ui.dart';
 
 final _logger = Logger('UPDATE');
 
-Future<void> checkRegistStatus(BuildContext context) async {
+Future<void> handleRegistInfo(BuildContext context,RegistInfo registInfo) async {
   final _setting = locator<SettingStore>();
-  //final id = _setting.registed.fetch()! ? _setting.registinfo.fetch() : null;
-  String? id = await PlatformDeviceId.getDeviceId;
-  String? code = _setting.registKey.fetch();
-  final registInfo = await locator<AppService>().getRegist(id,code);
   _setting.maxServers.put(registInfo.serviceNumbers);
   _setting.registed.put(true);
   S s =S.of(context)!;
@@ -49,6 +46,15 @@ Future<void> checkRegistStatus(BuildContext context) async {
     default:
       '';
   }
+}
+
+Future<void> checkRegistStatus(BuildContext context) async {
+  final _setting = locator<SettingStore>();
+  //final id = _setting.registed.fetch()! ? _setting.registinfo.fetch() : null;
+  String? id = await PlatformDeviceId.getDeviceId;
+  String? code = _setting.registKey.fetch();
+  final registInfo = await locator<AppService>().getRegist(id,code);
+  handleRegistInfo(context,registInfo);
 }
 
 Future<bool> isFileAvailable(String url) async {

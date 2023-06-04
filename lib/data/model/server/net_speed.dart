@@ -5,12 +5,14 @@ class NetSpeedPart {
   BigInt bytesIn;
   BigInt bytesOut;
   BigInt time;
+
   NetSpeedPart(this.device, this.bytesIn, this.bytesOut, this.time);
 }
 
 class NetSpeed {
   List<NetSpeedPart> _old;
   List<NetSpeedPart> _now;
+
   NetSpeed(this._old, this._now);
 
   List<String> get devices {
@@ -31,6 +33,7 @@ class NetSpeed {
   double getSpeedIn({String? device}) {
     if (_old[0].device == '' || _now[0].device == '') return 0;
     final idx = deviceIdx(device);
+    print('_old size--${_old.length}---pick index:$idx');
     return (_now[idx].bytesIn - _old[idx].bytesIn) / timeDiff;
   }
 

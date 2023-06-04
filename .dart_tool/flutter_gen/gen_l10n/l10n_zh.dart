@@ -586,4 +586,28 @@ class SZh extends S {
 
   @override
   String get registExpired => '注册过期';
+
+  @override
+  String get subscribe => '订阅';
+
+  @override
+  String get titleTry => '试用';
+
+  @override
+  String get maxServices => '订阅服务服务器上限';
+
+  @override
+  String get price => '价格';
+
+  @override
+  String get registryCode => '序列号';
+
+  @override
+  String get inputCode => '输入序列号';
+
+  @override
+  String get regist => '注册';
+
+  @override
+  String get illegalCode => '序列号非法';
 }

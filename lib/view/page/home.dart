@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:toolbox/core/extension/navigator.dart';
 import 'package:toolbox/data/provider/app.dart';
 import 'package:toolbox/data/res/misc.dart';
+import 'package:toolbox/view/page/server/regist.dart';
 import 'package:toolbox/view/widget/round_rect_card.dart';
 
 import '../../core/analysis.dart';
@@ -163,7 +164,11 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   Future<void> registApp() async {
-    await checkRegistStatus(context);
+    AppRoute(
+      const RegistPage(),
+      'subscribe',
+    ).go(context);
+    //await checkRegistStatus(context);
   }
 
   Widget _buildDrawer() {

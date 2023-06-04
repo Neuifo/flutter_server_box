@@ -586,4 +586,28 @@ class SDe extends S {
 
   @override
   String get registExpired => 'Register Expired';
+
+  @override
+  String get subscribe => 'Subscribe';
+
+  @override
+  String get titleTry => 'Try On';
+
+  @override
+  String get maxServices => 'Max Services';
+
+  @override
+  String get price => 'Price';
+
+  @override
+  String get registryCode => 'Registry Code';
+
+  @override
+  String get inputCode => 'Input Code';
+
+  @override
+  String get regist => 'Register';
+
+  @override
+  String get illegalCode => 'Illegal Code';
 }

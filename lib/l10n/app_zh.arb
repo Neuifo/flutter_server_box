@@ -177,6 +177,14 @@
   "buyService": "购买服务",
   "normalVersion": "普通版",
   "registerVersion": "高级版",
-  "registExpired": "注册过期"
+  "registExpired": "注册过期",
+  "subscribe": "订阅",
+  "titleTry": "试用",
+  "maxServices": "订阅服务服务器上限",
+  "price": "价格",
+  "registryCode": "序列号",
+  "inputCode": "输入序列号",
+  "regist": "注册",
+  "illegalCode": "序列号非法"
 
 }

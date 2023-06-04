@@ -177,5 +177,13 @@
   "buyService": "Buy",
   "normalVersion": "Normal ver",
   "registerVersion": "Premium ver",
-  "registExpired": "Register Expired"
+  "registExpired": "Register Expired",
+  "subscribe": "Subscribe",
+  "titleTry": "Try On",
+  "maxServices": "Max Services",
+  "price": "Price",
+  "registryCode": "Registry Code",
+  "inputCode": "Input Code",
+  "regist": "Register",
+  "illegalCode": "Illegal Code"
 }

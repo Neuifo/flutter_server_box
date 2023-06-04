@@ -1168,6 +1168,54 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Register Expired'**
   String get registExpired;
+
+  /// No description provided for @subscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get subscribe;
+
+  /// No description provided for @titleTry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try On'**
+  String get titleTry;
+
+  /// No description provided for @maxServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Services'**
+  String get maxServices;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get price;
+
+  /// No description provided for @registryCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Registry Code'**
+  String get registryCode;
+
+  /// No description provided for @inputCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Code'**
+  String get inputCode;
+
+  /// No description provided for @regist.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get regist;
+
+  /// No description provided for @illegalCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Illegal Code'**
+  String get illegalCode;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
