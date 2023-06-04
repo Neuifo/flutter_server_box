@@ -89,11 +89,11 @@ class _ServerDetailPageState extends State<ServerDetailPage>
       defaultDetailCardOrder,
       [
         _buildUpTimeAndSys(ss.sysVer, ss.uptime),
+        _buildNetView(ss.netSpeed),
         _buildCPUView(ss.cpu),
         _buildMemView(ss.mem),
         _buildSwapView(ss.swap),
         _buildDiskView(ss.disk),
-        _buildNetView(ss.netSpeed),
         _buildTemperature(ss.temps),
       ],
     );
