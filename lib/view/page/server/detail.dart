@@ -94,12 +94,12 @@ class _ServerDetailPageState extends State<ServerDetailPage>
   }
 
   Widget _buildCPUView(ServerStatus ss) {
-    final tempWidget = ss.cpu.temp.isEmpty
+    /*final tempWidget = ss.cpu.temp.isEmpty
         ? const SizedBox()
         : Text(
             ss.cpu.temp,
             style: textSize13Grey,
-          );
+          );*/
     return RoundRectCard(
       Padding(
         padding: roundRectCardPadding,
@@ -115,7 +115,7 @@ class _ServerDetailPageState extends State<ServerDetailPage>
                     textScaleFactor: 1.0,
                   ),
                   width7,
-                  tempWidget
+                  //tempWidget
                 ],
               ),
               Row(
