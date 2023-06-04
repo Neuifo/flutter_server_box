@@ -71,7 +71,7 @@ enum RegsitType {
 class _RegistPageState extends State<RegistPage> {
   late S _s;
   late MediaQueryData _media;
-  String inputRegisterCode = "";
+  late String inputRegisterCode;
   final _setting = locator<SettingStore>();
 
   @override
@@ -81,8 +81,14 @@ class _RegistPageState extends State<RegistPage> {
     _media = MediaQuery.of(context);
   }
 
+  void updateCurrentStatus() {
+    setState(() {});
+  }
+
   @override
   void initState() {
+    inputRegisterCode =
+        _setting.registed.fetch()! ? _setting.registKey.fetch()! : "";
     super.initState();
   }
 
@@ -96,10 +102,10 @@ class _RegistPageState extends State<RegistPage> {
         padding: const EdgeInsets.symmetric(horizontal: 0),
         children: [
           _buildTitle(),
-          _buildFreeRow(RegsitType.FREE),
-          _buildFreeRow(RegsitType.MONTH),
-          _buildFreeRow(RegsitType.YEAR),
-          _buildFreeRow(RegsitType.LIFE),
+          _buildRegistTypeRow(RegsitType.FREE),
+          _buildRegistTypeRow(RegsitType.MONTH),
+          _buildRegistTypeRow(RegsitType.YEAR),
+          _buildRegistTypeRow(RegsitType.LIFE),
           const SizedBox(height: 37),
           _buildRegistButton(),
         ],
@@ -173,46 +179,76 @@ class _RegistPageState extends State<RegistPage> {
     );
   }
 
-  Widget _buildFreeRow(RegsitType regsitType) {
+  Widget _buildRegistTypeRow(RegsitType regsitType) {
     //final width = (_media.size.width - 34 - 34) / 3;
     final width = (_media.size.width) / 3;
-    return Container(
-        color: regsitType.color.withAlpha(regsitType.backgroundAlpha),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 23, bottom: 17),
-          child: Center(
-            child: SelectionArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                textDirection: TextDirection.ltr,
-                children: <Widget>[
-                  _buildBodyIconText(width * 0.7, regsitType.icon,
-                      regsitType.leftText, regsitType.color, TextAlign.center),
-                  _buildBodyText(width * 1.3, regsitType.midText,
-                      regsitType.color, TextAlign.center),
-                  _buildBodyText(width * 0.7, regsitType.rightText,
-                      regsitType.color, TextAlign.center),
-                ],
-              ),
-            ),
-          ),
-        ));
+    return Stack(
+        //alignment:new Alignment(x, y)
+        children: <Widget>[
+          Container(
+              color: regsitType.color.withAlpha(regsitType.backgroundAlpha),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 23, bottom: 17),
+                child: Center(
+                  child: SelectionArea(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      textDirection: TextDirection.ltr,
+                      children: <Widget>[
+                        _buildBodyIconText(
+                            width * 0.7,
+                            regsitType.icon,
+                            regsitType.leftText,
+                            regsitType.color,
+                            TextAlign.center),
+                        _buildBodyText(width * 1.3, regsitType.midText,
+                            regsitType.color, TextAlign.center),
+                        _buildBodyText(width * 0.7, regsitType.rightText,
+                            regsitType.color, TextAlign.center),
+                      ],
+                    ),
+                  ),
+                ),
+              )),
+          Positioned(
+            left: width / 3,
+            top: 15,
+            child: _warpVisibilityView(
+                _setting.registType.fetch()! == (regsitType.index),
+                const Icon(Icons.done,
+                    size: 35.0, color: Color.fromRGBO(205, 30, 30, 1.0))),
+          )
+        ]);
   }
 
-  Widget _buildRegistButton() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 23, right: 17),
-      child: OutlinedButton(
-          //style: ButtonStyle(padding: const EdgeInsets.fromLTRB(left:0,top:0,right:0,bottom:0)),
-          onPressed: () {
-            inputCode();
-          },
-          child: Text(_s.inputCode, style: TextStyle())),
+  Widget _warpVisibilityView(bool flag, Widget children) {
+    return Visibility(
+      maintainSize: true,
+      maintainAnimation: true,
+      maintainState: true,
+      visible: flag,
+      child: children,
     );
   }
 
+  Widget _buildRegistButton() {
+    return _warpVisibilityView(
+        _setting.registType.fetch()! != 3,
+        Padding(
+          padding: const EdgeInsets.only(left: 23, right: 17),
+          child: OutlinedButton(
+              //style: ButtonStyle(padding: const EdgeInsets.fromLTRB(left:0,top:0,right:0,bottom:0)),
+              onPressed: () {
+                inputCode();
+              },
+              child: Text(_s.inputCode, style: TextStyle())),
+        ));
+  }
+
   Widget _buildRegistBody() {
-    return TextField(
+    return TextFormField(
+      initialValue:
+          _setting.registed.fetch()! ? _setting.registKey.fetch()! : "",
       cursorColor: Colors.blue,
       cursorRadius: Radius.circular(10),
       cursorWidth: 2,
@@ -231,9 +267,9 @@ class _RegistPageState extends State<RegistPage> {
               OutlineInputBorder(borderSide: BorderSide(color: Colors.blue)),
           border:
               OutlineInputBorder(borderSide: BorderSide(color: Colors.red))),
-      onSubmitted: (str) {
+      /*onSubmitted: (str) {
         print('_TextFieldViewState.buildView--$str');
-      },
+      },*/
       textInputAction: TextInputAction.search,
       onChanged: (content) {
         //print('_TextFieldViewState.buildView-changed:$content');
@@ -275,13 +311,20 @@ class _RegistPageState extends State<RegistPage> {
     String? id = await PlatformDeviceId.getDeviceId;
     try {
       final registInfo =
-              await locator<AppService>().getRegist(id, inputRegisterCode);
-      handleRegistInfo(context,registInfo);
-    } catch (e) {
-      showErrorDialog(_s.illegalCode);
+          await locator<AppService>().getRegist(id, inputRegisterCode);
+      if (await handleRegistInfo(context, registInfo, inputRegisterCode)) {
+        //regist success
+        context.pop();
+      } else {
+        //regist failed
+        showErrorDialog(_s.illegalCode);
+      }
       context.pop();
+    } catch (e) {
+      context.pop();
+      showErrorDialog(_s.illegalCode);
     }
-
+    updateCurrentStatus();
     //context.pop();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
@@ -17,11 +19,13 @@ import 'utils/ui.dart';
 
 final _logger = Logger('UPDATE');
 
-Future<void> handleRegistInfo(BuildContext context,RegistInfo registInfo) async {
+Future<bool> handleRegistInfo(
+    BuildContext context, RegistInfo registInfo, String? code) async {
   final _setting = locator<SettingStore>();
   _setting.maxServers.put(registInfo.serviceNumbers);
   _setting.registed.put(true);
-  S s =S.of(context)!;
+  _setting.registType.put(registInfo.registType);
+  S s = S.of(context)!;
 
   switch (registInfo.registType) {
     case 0: //week
@@ -29,6 +33,7 @@ Future<void> handleRegistInfo(BuildContext context,RegistInfo registInfo) async 
     case 2: //years
       DateTime currentTime = DateTime.now();
       if (currentTime.millisecondsSinceEpoch > registInfo.registTime) {
+        _setting.registed.put(false);
         showRoundDialog(
           context: context,
           child: Text(s.registExpired),
@@ -39,22 +44,29 @@ Future<void> handleRegistInfo(BuildContext context,RegistInfo registInfo) async 
             )
           ],
         );
+        return false;
+      } else {
+        _setting.registKey.put(code!);
+        return true;
       }
       break;
     case 3: //all day
+      _setting.registKey.put(code!);
+      return true;
       break;
     default:
       '';
   }
+  return false;
 }
 
-Future<void> checkRegistStatus(BuildContext context) async {
+Future<bool> checkRegistStatus(BuildContext context) async {
   final _setting = locator<SettingStore>();
   //final id = _setting.registed.fetch()! ? _setting.registinfo.fetch() : null;
   String? id = await PlatformDeviceId.getDeviceId;
   String? code = _setting.registKey.fetch();
-  final registInfo = await locator<AppService>().getRegist(id,code);
-  handleRegistInfo(context,registInfo);
+  final registInfo = await locator<AppService>().getRegist(id, code);
+  return handleRegistInfo(context, registInfo, code);
 }
 
 Future<bool> isFileAvailable(String url) async {

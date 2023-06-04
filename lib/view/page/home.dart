@@ -171,6 +171,19 @@ class _MyHomePageState extends State<MyHomePage>
     //await checkRegistStatus(context);
   }
 
+  String getRegistName() {
+    if (!_setting.registed.fetch()!) {
+      return RegsitType.FREE.leftText;
+    } else {
+      for (var type in RegsitType.values) {
+        if (type.index == _setting.registType.fetch()!) {
+          return type.leftText;
+        }
+      }
+    }
+    return RegsitType.FREE.leftText;
+  }
+
   Widget _buildDrawer() {
     return Drawer(
       surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
@@ -199,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage>
               children: [
                 ListTile(
                   leading: const Icon(Icons.upgrade),
-                  title: Text(_s.normalVersion),
+                  title: Text(getRegistName()),
                   onTap: () => registApp(),
                 ),
                 ListTile(
@@ -297,12 +310,12 @@ class _MyHomePageState extends State<MyHomePage>
     return Stack(
       alignment: Alignment.center,
       children: [
-        ConstrainedBox(
+        /*ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 53, maxWidth: 53),
           child: Container(
             color: Colors.white,
           ),
-        ),
+        ),*/
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 83, maxWidth: 83),
           child: appIcon,

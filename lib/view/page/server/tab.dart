@@ -9,6 +9,7 @@ import 'package:toolbox/core/utils/misc.dart';
 import 'package:toolbox/data/model/server/disk_info.dart';
 import 'package:toolbox/data/model/server/net_speed.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:toolbox/view/page/server/regist.dart';
 
 import '../../../core/route.dart';
 import '../../../core/utils/ui.dart';
@@ -87,7 +88,12 @@ class _ServerPageState extends State<ServerPage>
             child: Text(_s.keep_use),
           ),
           TextButton(
-            onPressed: () => {},
+            onPressed: () => {
+              AppRoute(
+                const RegistPage(),
+                'subscribe',
+              ).go(context)
+            },
             child: Text(_s.buyService),
           )
         ],
