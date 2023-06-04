@@ -78,11 +78,11 @@ class _ServerPageState extends State<ServerPage>
   }
 
   void handleEdit(BuildContext context) {
-    if (_serverProvider.serverOrder.length >=
-        _settingStore.maxServers.fetch()!) {
+    int maxServices = _settingStore.maxServers.fetch()!;
+    if (_serverProvider.serverOrder.length >= maxServices) {
       showRoundDialog(
         context: context,
-        child: Text(_s.unregister_info(_settingStore.maxServers.fetch()!)),
+        child: Text(_s.unregister_info(maxServices)),
         actions: [
           TextButton(
             onPressed: () => {Navigator.of(context).pop()},
@@ -163,10 +163,7 @@ class _ServerPageState extends State<ServerPage>
     }
     return GestureDetector(
       key: Key(si.spi.id),
-      onTap: () => AppRoute(
-        ServerDetailPage(si.spi.id),
-        'server detail page',
-      ).go(context),
+      onTap: () => checkLimitService(si),
       child: RoundRectCard(
         Padding(
           padding: const EdgeInsets.all(13),
@@ -216,10 +213,10 @@ class _ServerPageState extends State<ServerPage>
   }
 
   Widget _buildServerCardTitle(
-      ServerStatus ss,
-      ServerState cs,
-      ServerPrivateInfo spi,
-      ) {
+    ServerStatus ss,
+    ServerState cs,
+    ServerPrivateInfo spi,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 7),
       child: Row(
@@ -230,7 +227,7 @@ class _ServerPageState extends State<ServerPage>
               Text(
                 spi.name,
                 style:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 textScaleFactor: 1.0,
               ),
               const Icon(
@@ -263,29 +260,29 @@ class _ServerPageState extends State<ServerPage>
     final hasError = cs == ServerState.failed && ss.failedInfo != null;
     return hasError
         ? GestureDetector(
-      onTap: () => showRoundDialog(
-        context: context,
-        title: Text(_s.error),
-        child: Text(ss.failedInfo ?? _s.unknownError),
-        actions: [
-          TextButton(
-            onPressed: () =>
-                copy2Clipboard(ss.failedInfo ?? _s.unknownError),
-            child: Text(_s.copy),
+            onTap: () => showRoundDialog(
+              context: context,
+              title: Text(_s.error),
+              child: Text(ss.failedInfo ?? _s.unknownError),
+              actions: [
+                TextButton(
+                  onPressed: () =>
+                      copy2Clipboard(ss.failedInfo ?? _s.unknownError),
+                  child: Text(_s.copy),
+                )
+              ],
+            ),
+            child: Text(
+              _s.viewErr,
+              style: textSize12Grey,
+              textScaleFactor: 1.0,
+            ),
           )
-        ],
-      ),
-      child: Text(
-        _s.viewErr,
-        style: textSize12Grey,
-        textScaleFactor: 1.0,
-      ),
-    )
         : Text(
-      topRightStr,
-      style: textSize12Grey,
-      textScaleFactor: 1.0,
-    );
+            topRightStr,
+            style: textSize12Grey,
+            textScaleFactor: 1.0,
+          );
   }
 
   Widget _buildSSHBtn(ServerPrivateInfo spi) {
@@ -371,11 +368,11 @@ class _ServerPageState extends State<ServerPage>
   }
 
   String getTopRightStr(
-      ServerState cs,
-      double? temp,
-      String upTime,
-      String? failedInfo,
-      ) {
+    ServerState cs,
+    double? temp,
+    String upTime,
+    String? failedInfo,
+  ) {
     switch (cs) {
       case ServerState.disconnected:
         return _s.disconnected;

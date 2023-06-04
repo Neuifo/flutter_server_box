@@ -486,7 +486,7 @@ class SZh extends S {
 
   @override
   String sureDelete(Object name) {
-    return '确定删除[$name]？';
+    return '确定删除 [$name]？';
   }
 
   @override
