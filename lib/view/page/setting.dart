@@ -54,6 +54,7 @@ class _SettingPageState extends State<SettingPage> {
   late int _updateInterval;
   late double _fontSize;
   late String _localeCode;
+  late String _editorTheme;
 
   String? _pushToken;
 
@@ -76,6 +77,7 @@ class _SettingPageState extends State<SettingPage> {
     _maxRetryCount = _setting.maxRetryCount.fetch()!;
     _selectedColorValue = _setting.primaryColor.fetch()!;
     _fontSize = _setting.termFontSize.fetch()!;
+    _editorTheme = _setting.editorTheme.fetch()!;
   }
 
   @override
