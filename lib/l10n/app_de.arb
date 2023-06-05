@@ -190,5 +190,7 @@
   "registryCode": "Registry Code",
   "inputCode": "Input Code",
   "regist": "Register",
-  "illegalCode": "Illegal Code"
+  "illegalCode": "Illegal Code",
+  "language": "Sprache",
+  "languageName": "Deutsch"
 }

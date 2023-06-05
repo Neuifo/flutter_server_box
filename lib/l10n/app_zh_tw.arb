@@ -179,5 +179,19 @@
   "versionUpdated": "當前：v1.0.{build}, 已是最新版本",
   "viewErr": "查看錯誤",
   "waitConnection": "請等待連接建立",
-  "willTakEeffectImmediately": "更改將會立即生效"
+  "willTakEeffectImmediately": "更改將會立即生效",
+  "unregister_info": "您是受限用户，暂时仅支持{number}个服务",
+  "keep_use": "继续使用",
+  "buyService": "购买服务",
+  "normalVersion": "普通版",
+  "registerVersion": "高级版",
+  "registExpired": "注册过期",
+  "subscribe": "订阅",
+  "titleTry": "试用",
+  "maxServices": "订阅服务服务器上限",
+  "price": "价格",
+  "registryCode": "序列号",
+  "inputCode": "输入序列号",
+  "regist": "注册",
+  "illegalCode": "序列号非法"
 }

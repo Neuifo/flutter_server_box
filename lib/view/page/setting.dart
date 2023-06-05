@@ -145,7 +145,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget _buildSSH() {
     return Column(
       children: [
-        _buildTermTheme(),
+        //_buildTermTheme(),
         _buildFont(),
         _buildTermFontSize(),
         _buildSSHVirtualKeyAutoOff(),
@@ -309,6 +309,40 @@ class _SettingPageState extends State<SettingPage> {
       ),
     );
   }
+
+  /*Widget _buildTermTheme() {
+    final items = TerminalColorsPlatform.values
+        .map(
+          (e) => PopupMenuItem<int>(
+        value: e.index,
+        child: Text(e.name),
+      ),
+    )
+        .toList();
+    return ListTile(
+      title: Text(
+        _s.theme,
+      ),
+      onTap: () {
+        termThemeKey.currentState?.showButtonMenu();
+      },
+      trailing: PopupMenuButton(
+        key: termThemeKey,
+        itemBuilder: (BuildContext context) => items,
+        initialValue: _termThemeIdx,
+        onSelected: (int idx) {
+          setState(() {
+            _termThemeIdx = idx;
+          });
+          _setting.termColorIdx.put(idx);
+        },
+        child: Text(
+          TerminalColorsPlatform.values[_termThemeIdx].name,
+          style: textSize15,
+        ),
+      ),
+    );
+  }*/
 
   Widget _buildMaxRetry() {
     final items = List.generate(

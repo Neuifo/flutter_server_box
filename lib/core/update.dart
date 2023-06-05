@@ -49,11 +49,9 @@ Future<bool> handleRegistInfo(
         await _setting.registKey.put(code!);
         return true;
       }
-      break;
     case 3: //all day
       await _setting.registKey.put(code!);
       return true;
-      break;
     default:
       '';
   }
