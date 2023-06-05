@@ -124,7 +124,7 @@ class _SettingPageState extends State<SettingPage> {
       _buildLocale(),
       _buildThemeMode(),
       _buildAppColor(),
-      _buildLaunchPage(),
+      //_buildLaunchPage(),
       _buildCheckUpdate(),
     ];
     if (isIOS) {
