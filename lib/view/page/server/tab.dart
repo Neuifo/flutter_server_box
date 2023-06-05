@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:toolbox/core/extension/navigator.dart';
 import 'package:toolbox/core/extension/order.dart';
 import 'package:toolbox/core/utils/misc.dart';
-import 'package:toolbox/data/model/server/disk_info.dart';
+import 'package:toolbox/data/model/server/disk.dart';
 import 'package:toolbox/data/model/server/net_speed.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:toolbox/view/page/server/regist.dart';
@@ -469,7 +469,7 @@ class _ServerPageState extends State<ServerPage>
     );
   }
 
-  Widget _buildDiskData(DiskInfo diskInfo) {
+  Widget _buildDiskData(Disk diskInfo) {
     final statusTextStyle = TextStyle(
         fontSize: 9, color: _theme.textTheme.bodyLarge!.color!.withAlpha(177));
     return SizedBox(
