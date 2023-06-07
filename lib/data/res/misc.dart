@@ -13,5 +13,5 @@ const editorMaxSize = 1024 * 1024;
 const maxDebugLogLines = 100;
 
 /// Method Channels
-const pkgName = 'tech.lolli.toolbox';
+const pkgName = 'com.neuifo.serverdog';
 const bgRunChannel = MethodChannel('$pkgName/app_retain');

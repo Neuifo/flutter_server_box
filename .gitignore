@@ -52,4 +52,4 @@ test.dart
 
 # Keep generated l10n files
 /.dart_tool/*
-!/.dart_tool/flutter_gen
+/.dart_tool/flutter_gen/

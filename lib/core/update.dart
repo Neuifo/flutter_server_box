@@ -19,21 +19,44 @@ import 'utils/ui.dart';
 
 final _logger = Logger('UPDATE');
 
+const DEFAULT_HOUR_TIME = 60 * 60 * 1000;
+const DEFAULT_DAY_TIME = DEFAULT_HOUR_TIME * 24;
+
+String getLeftTime(int expiredTime) {
+  DateTime currentTime = DateTime.now();
+  if (currentTime.millisecondsSinceEpoch > expiredTime) {
+    return "已过期";
+  } else {
+    int leftTime = expiredTime - currentTime.millisecondsSinceEpoch;
+
+    if (leftTime / DEFAULT_DAY_TIME < 1) {
+      return "剩余${(leftTime ~/ DEFAULT_HOUR_TIME).toInt()}小时";
+    } else if (leftTime / DEFAULT_DAY_TIME < 370) {
+      return "剩余${(leftTime / DEFAULT_DAY_TIME).toInt()}天";
+    }
+  }
+  return "已过期";
+}
+
 Future<bool> handleRegistInfo(
     BuildContext context, RegistInfo registInfo, String? code) async {
   final _setting = locator<SettingStore>();
-  await _setting.maxServers.put(registInfo.serviceNumbers);
-  await _setting.registed.put(true);
-  await _setting.registType.put(registInfo.registType);
+  _setting.maxServers.put(registInfo.serviceNumbers);
+  _setting.registed.put(true);
+  _setting.registType.put(registInfo.registType);
+  _setting.expiredTime.put(registInfo.registTime);
   S s = S.of(context)!;
 
   switch (registInfo.registType) {
-    case 0: //week
-    case 1: //month
-    case 2: //years
+    case 0: //free
+    case 1: //week
+    case 2: //month
+    case 3: //years
       DateTime currentTime = DateTime.now();
       if (currentTime.millisecondsSinceEpoch > registInfo.registTime) {
-        await _setting.registed.put(false);
+        _setting.registed.put(false);
+        _setting.registType.put(0);
+        _setting.maxServers.put(3);
         showRoundDialog(
           context: context,
           child: Text(s.registExpired),
@@ -44,13 +67,18 @@ Future<bool> handleRegistInfo(
             )
           ],
         );
+        //
         return false;
-      } else {
-        await _setting.registKey.put(code!);
+      } else if (code != null && code.isNotEmpty) {
+        _setting.registKey.put(code!);
         return true;
+      } else if (registInfo.registType != 0) {//not free
+        return true;
+      } else {
+        return false;
       }
-    case 3: //all day
-      await _setting.registKey.put(code!);
+    case 4: //all day
+      _setting.registKey.put(code!);
       return true;
     default:
       '';

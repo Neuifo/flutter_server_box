@@ -1,4 +1,4 @@
-package tech.lolli.toolbox
+package com.neuifo.serverdog
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -9,7 +9,7 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
         val binaryMessenger = flutterEngine.dartExecutor.binaryMessenger
 
-        MethodChannel(binaryMessenger, "tech.lolli.toolbox/app_retain").apply {
+        MethodChannel(binaryMessenger, "com.neuifo.serverdog/app_retain").apply {
             setMethodCallHandler { method, result ->
                 if (method.method == "sendToBackground") {
                     moveTaskToBack(true)

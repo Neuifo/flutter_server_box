@@ -181,16 +181,20 @@ class _HomePageState extends State<HomePage>
   }
 
   String getRegistName() {
-    if (!_setting.registed.fetch()!) {
-      return RegsitType.FREE.leftText;
-    } else {
-      for (var type in RegsitType.values) {
-        if (type.index == _setting.registType.fetch()!) {
-          return type.leftText;
-        }
+    for (var type in RegsitType.values) {
+      if (type.index == _setting.registType.fetch()!) {
+        return type.leftText + getExpiredTime();
       }
     }
     return RegsitType.FREE.leftText;
+  }
+
+  String getExpiredTime() {
+    int registType = _setting.registType.fetch()!;
+    if (registType != 0 && registType != 4) {
+       return "\n${getLeftTime(_setting.expiredTime.fetch()!)}";
+    }
+    return "";
   }
 
   Widget _buildDrawer() {

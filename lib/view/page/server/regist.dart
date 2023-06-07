@@ -25,8 +25,15 @@ enum RegsitType {
       color: Color(0xFFFF6969),
       backgroundAlpha: 30,
       icon: "assets/icon_free.png",
-      leftText: "试用版",
+      leftText: "免费会员",
       midText: "3台",
+      rightText: "免费"),
+  TRYON(
+      color: Color(0xFF6100FF),
+      backgroundAlpha: 30,
+      icon: "assets/icon_try.png",
+      leftText: "试用周会员",
+      midText: "10台",
       rightText: "免费"),
   MONTH(
       color: Color(0xFFFF00E5),
@@ -103,6 +110,7 @@ class _RegistPageState extends State<RegistPage> {
         children: [
           _buildTitle(),
           _buildRegistTypeRow(RegsitType.FREE),
+          _buildRegistTypeRow(RegsitType.TRYON),
           _buildRegistTypeRow(RegsitType.MONTH),
           _buildRegistTypeRow(RegsitType.YEAR),
           _buildRegistTypeRow(RegsitType.LIFE),
@@ -233,7 +241,7 @@ class _RegistPageState extends State<RegistPage> {
 
   Widget _buildRegistButton() {
     return _warpVisibilityView(
-        _setting.registType.fetch()! != 3,
+        _setting.registType.fetch()! != 4,
         Padding(
           padding: const EdgeInsets.only(left: 23, right: 17),
           child: OutlinedButton(

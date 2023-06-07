@@ -375,7 +375,7 @@ class _SettingPageState extends State<SettingPage> {
         .toList();
     // Issue #57
     final len = ThemeMode.values.length;
-    items.add(PopupMenuItem(value: len, child: Text(_buildThemeModeStr(len))));
+    //items.add(PopupMenuItem(value: len, child: Text(_buildThemeModeStr(len))));
 
     return ListTile(
       title: Text(
@@ -408,8 +408,8 @@ class _SettingPageState extends State<SettingPage> {
         return _s.light;
       case 2:
         return _s.dark;
-      case 3:
-        return 'AMOLED';
+      /*case 3:
+        return 'AMOLED';*/
       default:
         return _s.auto;
     }
