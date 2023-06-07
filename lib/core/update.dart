@@ -72,7 +72,8 @@ Future<bool> handleRegistInfo(
       } else if (code != null && code.isNotEmpty) {
         _setting.registKey.put(code!);
         return true;
-      } else if (registInfo.registType != 0) {//not free
+      } else if (registInfo.registType != 0) {
+        //not free
         return true;
       } else {
         return false;
@@ -105,40 +106,65 @@ Future<bool> isFileAvailable(String url) async {
   }
 }
 
-Future<void> doUpdate(BuildContext context, {bool force = false}) async {
-  final update = await locator<AppService>().getUpdate();
+int getPlatformType() {
+  switch (platform) {
+    case PlatformType.android:
+      return 0;
+    case PlatformType.ios:
+      return 1;
+    case PlatformType.linux:
+      return 5;
+    case PlatformType.macos:
+      return 4;
+    case PlatformType.windows:
+      return 3;
+    case PlatformType.web:
+      return 2;
+    case PlatformType.unknown:
+      return -1;
+  }
+}
 
-  final newest = update.build.last.current;
-  if (newest == null) {
+Future<void> doUpdate(BuildContext context, {bool force = false}) async {
+  final update = await locator<AppService>()
+      .getUpdate("${BuildData.versionCode}", getPlatformType());
+
+  final newest = update.versionCode;
+  if (update.versionName == null) {
     _logger.warning('Update not available on $platform');
     return;
   }
 
   locator<AppProvider>().setNewestBuild(newest);
 
-  if (!force && newest <= BuildData.build) {
-    _logger.info('Update ignored due to current: ${BuildData.build}, '
+  if (!force && newest <= BuildData.versionCode) {
+    _logger.info('Update ignored due to current: ${BuildData.versionCode}, '
         'update: $newest');
     return;
   }
   _logger.info('Update available: $newest');
 
-  final url = update.url.current!;
+  final url = update.downloadLink;
 
-  if (isAndroid && !await isFileAvailable(url)) {
+  if (url == null) {
+    _logger.warning('Android update file not available');
+    return;
+  }
+
+  if (isAndroid && !await isFileAvailable(url!)) {
     _logger.warning('Android update file not available');
     return;
   }
 
   final s = S.of(context)!;
 
-  if (update.build.min.current! > BuildData.build) {
+  if (update.versionCode > BuildData.versionCode) {
     showRoundDialog(
       context: context,
       child: Text(s.updateTipTooLow(newest)),
       actions: [
         TextButton(
-          onPressed: () => _doUpdate(url, context, s),
+          onPressed: () => _doUpdate(url!, context, s),
           child: Text(s.ok),
         )
       ],
@@ -148,9 +174,9 @@ Future<void> doUpdate(BuildContext context, {bool force = false}) async {
 
   showSnackBarWithAction(
     context,
-    '${s.updateTip(newest)} \n${update.changelog.current}',
+    '${s.updateTip(newest)} \n${update.updateMessage}',
     s.update,
-    () => _doUpdate(url, context, s),
+    () => _doUpdate(url!, context, s),
   );
 }
 

@@ -58,98 +58,48 @@ class RegistInfo {
   final int serviceNumbers;
 }
 
-class AppUpdate {
-  AppUpdate({
-    required this.changelog,
-    required this.build,
-    required this.url,
+class AppInfo {
+  AppInfo({
+    required this.versionCode,
+    this.versionName,
+    this.downloadLink,
+    //0 weak 1 normal 2 force
+    this.updateType,
+    this.updateMessage,
+    this.updateMessageTitle,
+    this.signatureType,
+    this.signature,
   });
 
-  final AppUpdatePlatformSpecific<String> changelog;
-  final Build build;
-  final AppUpdatePlatformSpecific<String> url;
-
-  factory AppUpdate.fromRawJson(String str) =>
-      AppUpdate.fromJson(json.decode(str));
+  final int versionCode;
+  String? versionName;
+  String? downloadLink;
+  int? updateType;
+  String? updateMessage;
+  String? updateMessageTitle;
+  int? signatureType;
+  String? signature;
 
   String toRawJson() => json.encode(toJson());
 
-  factory AppUpdate.fromJson(Map<String, dynamic> json) => AppUpdate(
-        changelog: AppUpdatePlatformSpecific.fromJson(json["changelog"]),
-        build: Build.fromJson(json["build"]),
-        url: AppUpdatePlatformSpecific.fromJson(json["url"]),
-      );
-
   Map<String, dynamic> toJson() => {
-        "changelog": changelog.toJson(),
-        "build": build.toJson(),
-        "url": url.toJson(),
-      };
-}
-
-class Build {
-  Build({
-    required this.min,
-    required this.last,
-  });
-
-  final AppUpdatePlatformSpecific<int> min;
-  final AppUpdatePlatformSpecific<int> last;
-
-  factory Build.fromRawJson(String str) => Build.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Build.fromJson(Map<String, dynamic> json) => Build(
-        min: AppUpdatePlatformSpecific.fromJson(json["min"]),
-        last: AppUpdatePlatformSpecific.fromJson(json["last"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "min": min.toJson(),
-        "last": last.toJson(),
-      };
-}
-
-class AppUpdatePlatformSpecific<T> {
-  AppUpdatePlatformSpecific({
-    required this.mac,
-    required this.ios,
-    required this.android,
-  });
-
-  final T mac;
-  final T ios;
-  final T android;
-
-  factory AppUpdatePlatformSpecific.fromRawJson(String str) =>
-      AppUpdatePlatformSpecific.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory AppUpdatePlatformSpecific.fromJson(Map<String, dynamic> json) =>
-      AppUpdatePlatformSpecific(
-        mac: json["mac"],
-        ios: json["ios"],
-        android: json["android"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "mac": mac,
-        "ios": ios,
-        "android": android,
+        "versionCode": versionCode,
+        "versionName": versionName,
+        "downloadLink": downloadLink,
+        "updateType": updateType,
+        "updateMessage": updateMessage,
+        "updateMessageTitle": updateMessageTitle,
+        "signatureType": signatureType,
+        "signature": signature,
       };
 
-  T? get current {
-    switch (platform) {
-      case PlatformType.macos:
-        return mac;
-      case PlatformType.ios:
-        return ios;
-      case PlatformType.android:
-        return android;
-      default:
-        return null;
-    }
-  }
+  factory AppInfo.fromJson(Map<String, dynamic> json) => AppInfo(
+      versionCode: json["versionCode"],
+      versionName: json["versionName"],
+      downloadLink: json["downloadLink"],
+      updateType: json["updateType"],
+      updateMessage: json["updateMessage"],
+      updateMessageTitle: json["updateMessageTitle"],
+      signatureType: json["signatureType"],
+      signature: json["signature"]);
 }

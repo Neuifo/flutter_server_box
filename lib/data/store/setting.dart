@@ -56,11 +56,11 @@ class SettingStore extends PersistentStore {
 
   StoreProperty<int> get registType => property('registType', defaultValue: 1);
 
-  StoreProperty<String> get registKey => property('registKey',defaultValue: "");
+  StoreProperty<String> get registKey =>
+      property('registKey', defaultValue: "");
 
-  StoreProperty<int> get expiredTime => property('expiredTime',defaultValue: 0);
-
-
+  StoreProperty<int> get expiredTime =>
+      property('expiredTime', defaultValue: 0);
 
   // Server order
   /// Server order

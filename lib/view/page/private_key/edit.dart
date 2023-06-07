@@ -64,7 +64,8 @@ class _PrivateKeyEditPageState extends State<PrivateKeyEditPage>
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      floatingActionButtonLocation: const CustomDockedFloatingActionButtonLocation(),
+      floatingActionButtonLocation:
+          const CustomDockedFloatingActionButtonLocation(),
       floatingActionButton: _buildFAB(),
     );
   }

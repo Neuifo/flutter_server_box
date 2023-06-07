@@ -571,12 +571,12 @@ class SDe extends S {
 
   @override
   String updateTip(Object newest) {
-    return 'Update: v1.0.$newest';
+    return 'Update: $newest';
   }
 
   @override
   String updateTipTooLow(Object newest) {
-    return 'Aktuelle Version ist zu alt, bitte update auf v1.0.$newest';
+    return 'Aktuelle Version ist zu alt, bitte update auf $newest';
   }
 
   @override
@@ -593,17 +593,17 @@ class SDe extends S {
 
   @override
   String versionHaveUpdate(Object build) {
-    return 'Gefunden: v1.0.$build, klicke zum Aktualisieren';
+    return 'Gefunden Version: $build, klicke zum Aktualisieren';
   }
 
   @override
   String versionUnknownUpdate(Object build) {
-    return 'Aktuell: v1.0.$build';
+    return 'Aktuell Version: $build';
   }
 
   @override
   String versionUpdated(Object build) {
-    return 'v1.0.$build ist bereits die neueste Version';
+    return '$build ist bereits die neueste Version';
   }
 
   @override

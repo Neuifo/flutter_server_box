@@ -571,12 +571,12 @@ class SZh extends S {
 
   @override
   String updateTip(Object newest) {
-    return '新版本: v1.0.$newest';
+    return '新版本: $newest';
   }
 
   @override
   String updateTipTooLow(Object newest) {
-    return '当前版本过低，请升级至 v1.0.$newest';
+    return '当前版本过低，请升级至 $newest';
   }
 
   @override
@@ -593,17 +593,17 @@ class SZh extends S {
 
   @override
   String versionHaveUpdate(Object build) {
-    return '找到新版本：v1.0.$build, 点击更新';
+    return '找到新版本：$build, 点击更新';
   }
 
   @override
   String versionUnknownUpdate(Object build) {
-    return '当前：v1.0.$build';
+    return '当前版本：$build';
   }
 
   @override
   String versionUpdated(Object build) {
-    return '当前：v1.0.$build, 已是最新版本';
+    return '当前版本：$build, 已是最新版本';
   }
 
   @override
@@ -1231,12 +1231,12 @@ class SZhTw extends SZh {
 
   @override
   String updateTip(Object newest) {
-    return '新版本: v1.0.$newest';
+    return '新版本: $newest';
   }
 
   @override
   String updateTipTooLow(Object newest) {
-    return '當前版本過低，請升級至 v1.0.$newest';
+    return '當前版本過低，請升級至 $newest';
   }
 
   @override
@@ -1253,17 +1253,17 @@ class SZhTw extends SZh {
 
   @override
   String versionHaveUpdate(Object build) {
-    return '找到新版本：v1.0.$build, 點擊更新';
+    return '找到新版本：$build, 點擊更新';
   }
 
   @override
   String versionUnknownUpdate(Object build) {
-    return '當前：v1.0.$build';
+    return '當前版本：$build';
   }
 
   @override
   String versionUpdated(Object build) {
-    return '當前：v1.0.$build, 已是最新版本';
+    return '當前版本：$build, 已是最新版本';
   }
 
   @override

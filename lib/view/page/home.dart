@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage>
   String getExpiredTime() {
     int registType = _setting.registType.fetch()!;
     if (registType != 0 && registType != 4) {
-       return "\n${getLeftTime(_setting.expiredTime.fetch()!)}";
+      return "\n${getLeftTime(_setting.expiredTime.fetch()!)}";
     }
     return "";
   }
@@ -338,11 +338,7 @@ class _HomePageState extends State<HomePage>
   }
 
   String get _versionStr {
-    var mod = '';
-    if (BuildData.modifications != 0) {
-      mod = '(+${BuildData.modifications})';
-    }
-    return 'Ver: 1.0.${BuildData.build}$mod';
+    return 'Ver: ${BuildData.versionName}';
   }
 
   @override
@@ -354,7 +350,7 @@ class _HomePageState extends State<HomePage>
     await _serverProvider.loadLocalData();
     await checkRegistStatus(context);
     await _serverProvider.refreshData();
-    //await doUpdate(context);
+    await doUpdate(context);
     if (!Analysis.enabled) {
       await Analysis.init();
     }

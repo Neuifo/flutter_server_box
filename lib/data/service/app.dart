@@ -6,9 +6,12 @@ import '../model/app/update.dart';
 import '../res/url.dart';
 
 class AppService {
-  Future<AppUpdate> getUpdate() async {
-    final resp = await Dio().get('$baseUrl/update.json');
-    return AppUpdate.fromJson(resp.data);
+  Future<AppInfo> getUpdate(String versionCode, int mobileType) async {
+    final resp = await Dio().get('$baseUrl/api/checkUpdate', queryParameters: {
+      'versionCode': versionCode,
+      'mobileType': mobileType
+    });
+    return AppInfo.fromJson(json.decode(resp.data));
   }
 
   Future<RegistInfo> getRegist(String? id, String? code) async {

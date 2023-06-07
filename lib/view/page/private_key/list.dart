@@ -32,7 +32,8 @@ class _PrivateKeyListState extends State<PrivateKeysListPage> {
         title: Text(_s.privateKey, style: textSize18),
       ),
       body: _buildBody(),
-      floatingActionButtonLocation: const CustomDockedFloatingActionButtonLocation(),
+      floatingActionButtonLocation:
+          const CustomDockedFloatingActionButtonLocation(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => AppRoute(

@@ -22,18 +22,20 @@ const buildFuncs = {
 };
 
 int? build;
+String? versionName;
 
 Future<ProcessResult> fvmRun(List<String> args) async {
   return await Process.run('fvm', args, runInShell: true);
 }
 
-Future<void> getGitCommitCount() async {
+Future<void> initVersion() async {
   /*final result = await Process.run('git', ['log', '--oneline']);
   build = (result.stdout as String)
       .split('\n')
       .where((line) => line.isNotEmpty)
       .length;*/
   build = 100;
+  versionName = "1.0.0";
 }
 
 Future<void> writeStaicConfigFile(
@@ -73,11 +75,12 @@ String getiOSAppId() {
 Future<Map<String, dynamic>> getBuildData() async {
   final data = {
     'name': appName,
-    'build': build,
+    'versionCode': build,
+    'versionName': versionName,
     'engine': await getFlutterVersion(),
     'buildAt': DateTime.now().toString(),
     'IOS_APP_ID': getiOSAppId(),
-    'modifications': await getGitModificationCount(),
+    //'modifications': await getGitModificationCount(),
   };
   return data;
 }
@@ -214,7 +217,7 @@ void main(List<String> args) async {
     case 'build':
       final stopwatch = Stopwatch()..start();
       await dartFormat();
-      await getGitCommitCount();
+      await initVersion();
       // always change version to avoid dismatch version between different
       // platforms
       await changeAppleVersion();

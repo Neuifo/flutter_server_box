@@ -1161,13 +1161,13 @@ abstract class S {
   /// No description provided for @updateTip.
   ///
   /// In en, this message translates to:
-  /// **'Update: v1.0.{newest}'**
+  /// **'Update: {newest}'**
   String updateTip(Object newest);
 
   /// No description provided for @updateTipTooLow.
   ///
   /// In en, this message translates to:
-  /// **'Current version is too low, please update to v1.0.{newest}'**
+  /// **'Current version is too low, please update to {newest}'**
   String updateTipTooLow(Object newest);
 
   /// No description provided for @upload.
@@ -1197,19 +1197,19 @@ abstract class S {
   /// No description provided for @versionHaveUpdate.
   ///
   /// In en, this message translates to:
-  /// **'Found: v1.0.{build}, click to update'**
+  /// **'Found: {build}, click to update'**
   String versionHaveUpdate(Object build);
 
   /// No description provided for @versionUnknownUpdate.
   ///
   /// In en, this message translates to:
-  /// **'Current: v1.0.{build}'**
+  /// **'Current Version: {build}'**
   String versionUnknownUpdate(Object build);
 
   /// No description provided for @versionUpdated.
   ///
   /// In en, this message translates to:
-  /// **'Current: v1.0.{build}, is up to date'**
+  /// **'Current Version: {build}, is up to date'**
   String versionUpdated(Object build);
 
   /// No description provided for @viewErr.

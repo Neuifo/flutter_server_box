@@ -2,9 +2,9 @@
 
 class BuildData {
   static const String name = "ServerDog";
-  static const int build = 100;
+  static const int versionCode = 100;
+  static const String versionName = "1.0.0";
   static const String engine = "3.10.0";
-  static const String buildAt = "2023-05-16 13:08:47.993479";
+  static const String buildAt = "2023-06-07 16:17:24.048086";
   static const String IOS_APP_ID = "1586449703";
-  static const int modifications = 3;
 }

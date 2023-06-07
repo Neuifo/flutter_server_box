@@ -37,7 +37,7 @@ const _cmdList = [
 ];
 
 final shellCmd = """
-# Script for app `${BuildData.name} v${BuildData.build}`
+# Script for app `${BuildData.name} v${BuildData.versionName}`
 # Delete this file while app is running will cause app crash
 
 ${_cmdList.join('\necho $seperator\n')}

@@ -185,13 +185,13 @@ class _SettingPageState extends State<SettingPage> {
       builder: (_, app, __) {
         String display;
         if (app.newestBuild != null) {
-          if (app.newestBuild! > BuildData.build) {
+          if (app.newestBuild! > BuildData.versionCode) {
             display = _s.versionHaveUpdate(app.newestBuild!);
           } else {
-            display = _s.versionUpdated(BuildData.build);
+            display = _s.versionUpdated(BuildData.versionName);
           }
         } else {
-          display = _s.versionUnknownUpdate(BuildData.build);
+          display = _s.versionUnknownUpdate(BuildData.versionName);
         }
         return ListTile(
           trailing: const Icon(Icons.keyboard_arrow_right),

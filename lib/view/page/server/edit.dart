@@ -66,7 +66,8 @@ class _ServerEditPageState extends State<ServerEditPage> with AfterLayoutMixin {
       appBar: _buildAppBar(),
       body: _buildForm(),
       floatingActionButton: _buildFAB(),
-      floatingActionButtonLocation: const CustomDockedFloatingActionButtonLocation(),
+      floatingActionButtonLocation:
+          const CustomDockedFloatingActionButtonLocation(),
     );
   }
 

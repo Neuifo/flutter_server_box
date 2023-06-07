@@ -571,12 +571,12 @@ class SEn extends S {
 
   @override
   String updateTip(Object newest) {
-    return 'Update: v1.0.$newest';
+    return 'Update: $newest';
   }
 
   @override
   String updateTipTooLow(Object newest) {
-    return 'Current version is too low, please update to v1.0.$newest';
+    return 'Current version is too low, please update to $newest';
   }
 
   @override
@@ -593,17 +593,17 @@ class SEn extends S {
 
   @override
   String versionHaveUpdate(Object build) {
-    return 'Found: v1.0.$build, click to update';
+    return 'Found: $build, click to update';
   }
 
   @override
   String versionUnknownUpdate(Object build) {
-    return 'Current: v1.0.$build';
+    return 'Current Version: $build';
   }
 
   @override
   String versionUpdated(Object build) {
-    return 'Current: v1.0.$build, is up to date';
+    return 'Current Version: $build, is up to date';
   }
 
   @override
